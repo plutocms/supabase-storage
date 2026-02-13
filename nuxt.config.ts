@@ -8,4 +8,13 @@ export default defineNuxtConfig({
   $meta: {
     name: 'supabase-storage',
   },
+
+  runtimeConfig: {
+    public: {
+      supabase: {
+        url: process.env.SUPABASE_URL || '',
+        key: process.env.SUPABASE_KEY || '',
+      },
+    },
+  },
 })

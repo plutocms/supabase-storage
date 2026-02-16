@@ -1,9 +1,7 @@
 export default defineNuxtConfig({
-  extends: ['github:plutocms/utils'],
+  extends: ['github:plutocms/supabase', 'github:plutocms/utils'],
 
-  $development: {
-    modules: ['@nuxtjs/supabase'],
-  },
+  modules: ['@nuxtjs/supabase'],
 
   $meta: {
     name: 'supabase-storage',

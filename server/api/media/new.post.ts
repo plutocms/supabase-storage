@@ -1,5 +1,4 @@
 import { serverSupabaseClient } from '#supabase/server'
-import { fileNameToKebabCase } from '@plutocms/utils/shared/utils/string'
 
 export default defineEventHandler(async (event) => {
   const client = await serverSupabaseClient<Database>(event)

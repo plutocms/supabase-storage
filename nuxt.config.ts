@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  extends: ['github:plutocms/supabase', '@plutocms/utils'],
+  extends: ['@plutocms/supabase', '@plutocms/utils'],
 
   modules: ['@nuxtjs/supabase'],
 

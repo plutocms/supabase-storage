@@ -27,6 +27,7 @@
     "esbuild",
     "@plutocms/supabase",
     "unrs-resolver",
+    "@plutocms/pluto",
     "@plutocms/utils",
     "vue-demi",
     "@parcel/watcher",

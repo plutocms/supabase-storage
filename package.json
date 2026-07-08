@@ -20,7 +20,7 @@
     "@antfu/eslint-config": "^6.2.0",
     "@nuxt/eslint": "^1.11.0",
     "@nuxt/ui": "^4.4.0",
-    "@nuxtjs/supabase": "2.0.3",
+    "@nuxtjs/supabase": "2.0.9",
     "@vueuse/nuxt": "^14.2.1",
     "eslint": "^9.39.1",
     "nuxt": "^4.3.0",

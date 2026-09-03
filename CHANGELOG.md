@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/plutocms/supabase-storage/compare/v0.1.0...v0.1.1) (2026-09-03)
+
+
+### Bug Fixes
+
+* never ship the generated shared/types/supabase.ts placeholder ([a210a53](https://github.com/plutocms/supabase-storage/commit/a210a536c7e7c937da6ceee63c7c226f05e96caf))
+
 ## [0.1.0](https://github.com/plutocms/supabase-storage/compare/v0.0.1-alpha.9...v0.1.0) (2026-09-03)
 
 

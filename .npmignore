@@ -34,3 +34,7 @@ skills-lock.json
 release-please-config.json
 .release-please-manifest.json
 test
+
+# Generated locally (or seeded as a placeholder by pluto-migrations at
+# postinstall) — never a real snapshot worth shipping to consumers.
+shared/types/supabase.ts

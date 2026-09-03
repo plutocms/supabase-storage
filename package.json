@@ -21,8 +21,8 @@
     "lint:fix": "eslint . --fix && prettier --write ."
   },
   "dependencies": {
-    "@plutocms/supabase": "^0.0.1-alpha.9",
-    "@plutocms/utils": "^0.0.1-alpha.5"
+    "@plutocms/supabase": "^0.0.1-alpha.17",
+    "@plutocms/utils": "^0.1.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.2.0",

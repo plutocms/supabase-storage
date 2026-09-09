@@ -1,0 +1,4 @@
+@import '@nuxt/ui';
+@import 'tailwindcss';
+
+@source '../..';

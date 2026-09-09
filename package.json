@@ -23,8 +23,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@plutocms/supabase": "^0.1.1",
-    "@plutocms/utils": "^0.1.0"
+    "@plutocms/supabase": "^0.2.1",
+    "@plutocms/utils": "^0.2.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.2.0",

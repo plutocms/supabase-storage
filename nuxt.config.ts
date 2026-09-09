@@ -12,6 +12,8 @@ export default defineNuxtConfig({
     name: 'supabase-storage',
   },
 
+  css: ['#layers/supabase-storage/app/assets/css/tailwind.css'],
+
   runtimeConfig: {
     public: {
       supabase: {

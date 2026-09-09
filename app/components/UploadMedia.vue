@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { TabsItem } from '@nuxt/ui'
 import { fileNameToKebabCase } from '#imports'
 
 const props = defineProps<{
@@ -38,7 +37,7 @@ watch(currentTab, () => {
   }
 })
 
-const tabs = ref<TabsItem[]>([
+const tabs = ref([
   {
     label: 'Gallery',
     icon: 'lucide:blocks',

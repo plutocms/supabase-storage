@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/plutocms/supabase-storage/compare/v0.1.1...v0.1.2) (2026-09-09)
+
+
+### Bug Fixes
+
+* **styles:** isolate storage layer sources ([#12](https://github.com/plutocms/supabase-storage/issues/12)) ([5e35b48](https://github.com/plutocms/supabase-storage/commit/5e35b48c3ede64fb39455a4902c80dca3ba79ff7))
+
 ## [0.1.1](https://github.com/plutocms/supabase-storage/compare/v0.1.0...v0.1.1) (2026-09-03)
 
 

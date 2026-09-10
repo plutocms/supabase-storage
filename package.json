@@ -23,7 +23,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@plutocms/supabase": "^0.2.1",
+    "@plutocms/supabase": "^0.2.2",
     "@plutocms/utils": "^0.2.1"
   },
   "devDependencies": {

@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { fileNameToKebabCase } from '#imports'
 
-const props = defineProps<{
-  productId?: number
-}>()
-
 const emit = defineEmits<{
   insert: [value: EmitValue | EmitValue[] | null]
 }>()
@@ -164,10 +160,7 @@ const transformedSelectedMedia = computed<EmitValue[]>(() => {
         return undefined
       }
 
-      return {
-        ...mediaList.value.data.find((dataItem) => item === dataItem.id),
-        product_id: props.productId ?? null,
-      }
+      return mediaList.value.data.find((dataItem) => item === dataItem.id)
     })
     .filter((item): item is EmitValue => item !== undefined)
 

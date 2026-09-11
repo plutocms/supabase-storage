@@ -14,7 +14,10 @@ describe('media table shape', () => {
     expectTypeOf<MediaRow>().toHaveProperty('id').toEqualTypeOf<number>()
     expectTypeOf<MediaRow>().toHaveProperty('name').toEqualTypeOf<string | null>()
     expectTypeOf<MediaRow>().toHaveProperty('alt').toEqualTypeOf<string | null>()
-    expectTypeOf<MediaRow>().toHaveProperty('product_id').toEqualTypeOf<number | null>()
+
+    // media is generic and has no product_id — a media/product association
+    // is @plutocms/supabase-shop's own product_media table, not this one.
+    expectTypeOf<MediaRow>().not.toHaveProperty('product_id')
 
     // `media` has no persisted url column (unlike supabase-shop's
     // product_media) — server/api/media/list.get.ts computes it manually

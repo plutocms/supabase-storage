@@ -5,6 +5,7 @@
     "": {
       "name": "supabase",
       "dependencies": {
+        "@nuxtjs/supabase": "2.0.3",
         "@plutocms/supabase": "^0.3.0",
         "@plutocms/utils": "^0.2.1",
       },
@@ -12,7 +13,6 @@
         "@antfu/eslint-config": "^6.2.0",
         "@nuxt/eslint": "^1.11.0",
         "@nuxt/ui": "^4.4.0",
-        "@nuxtjs/supabase": "2.0.3",
         "@vueuse/nuxt": "^14.2.1",
         "eslint": "^9.39.1",
         "nuxt": "^4.3.0",

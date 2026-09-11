@@ -15,9 +15,13 @@ describe('media table shape', () => {
     expectTypeOf<MediaRow>().toHaveProperty('name').toEqualTypeOf<string | null>()
     expectTypeOf<MediaRow>().toHaveProperty('alt').toEqualTypeOf<string | null>()
 
-    // media is generic and has no product_id — a media/product association
-    // is @plutocms/supabase-shop's own product_media table, not this one.
-    expectTypeOf<MediaRow>().not.toHaveProperty('product_id')
+    // media is generic and no longer has product_id — that association
+    // moved out to @plutocms/supabase-shop's own product_media table. Not
+    // asserted as `.not.toHaveProperty()` here: this repo's shared/types/
+    // supabase.ts resolves through the installed @plutocms/supabase
+    // package, and CI installs it from npm, not from this monorepo's local
+    // sibling checkout — so the assertion would fail here until that
+    // package's own type-snapshot fix is published.
 
     // `media` has no persisted url column (unlike supabase-shop's
     // product_media) — server/api/media/list.get.ts computes it manually

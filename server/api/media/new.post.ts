@@ -1,6 +1,8 @@
 import { serverSupabaseClient } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
+  await requireAdmin(event)
+
   const client = await serverSupabaseClient<Database>(event)
 
   const formData = await readMultipartFormData(event)

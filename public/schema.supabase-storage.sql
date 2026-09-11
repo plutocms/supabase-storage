@@ -33,21 +33,30 @@ create policy "media_select_public"
   for select
   using (true);
 
--- Only authenticated users (admins / editors) can insert media.
+-- Only admins can insert media. There is no editor/author role yet, so
+-- "authenticated" previously meant "any signed-up account, admin or not".
+-- public.is_admin() is defined in the core schema (@plutocms/supabase),
+-- which always applies before any layer schema.
+drop policy if exists "media_insert_authenticated" on public.media;
+
 create policy "media_insert_authenticated"
   on public.media
   for insert
-  with check (auth.role() = 'authenticated');
+  with check (public.is_admin());
 
--- Only authenticated users can update media records.
+-- Only admins can update media records.
+drop policy if exists "media_update_authenticated" on public.media;
+
 create policy "media_update_authenticated"
   on public.media
   for update
-  using  (auth.role() = 'authenticated')
-  with check (auth.role() = 'authenticated');
+  using  (public.is_admin())
+  with check (public.is_admin());
 
--- Only authenticated users can delete media records.
+-- Only admins can delete media records.
+drop policy if exists "media_delete_authenticated" on public.media;
+
 create policy "media_delete_authenticated"
   on public.media
   for delete
-  using (auth.role() = 'authenticated');
+  using (public.is_admin());

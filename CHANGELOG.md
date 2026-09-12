@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/plutocms/supabase-storage/compare/v0.2.0...v0.3.0) (2026-09-12)
+
+
+### Features
+
+* **registry:** migrate to definePlutoExtension ([#23](https://github.com/plutocms/supabase-storage/issues/23)) ([cec161c](https://github.com/plutocms/supabase-storage/commit/cec161c95a79a42f64f1c7ceaea51fe20f189b83))
+
 ## [0.2.0](https://github.com/plutocms/supabase-storage/compare/v0.1.4...v0.2.0) (2026-09-12)
 
 

@@ -1,7 +1,7 @@
 import { serverSupabaseClient } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
-  await requireAdmin(event)
+  await requireCapability(event, 'media:manage')
 
   const client = await serverSupabaseClient<Database>(event)
 

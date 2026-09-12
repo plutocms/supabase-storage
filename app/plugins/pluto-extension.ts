@@ -13,5 +13,9 @@ export default defineNuxtPlugin(() => {
     pages: [
       { id: 'media', path: '/admin/media', title: 'Media Library', icon: 'lucide:images' },
     ],
+    capabilities: [
+      { id: 'media-manage', key: 'media:manage', label: 'Upload and edit media' },
+      { id: 'media-delete', key: 'media:delete', label: 'Delete media' },
+    ],
   })
 })

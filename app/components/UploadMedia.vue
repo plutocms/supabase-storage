@@ -11,6 +11,12 @@ const isMediaModalOpen = defineModel<boolean>({
 
 const { mediaList, refreshMediaList, mediaStatus, getMediaUrl } = useMedia()
 
+// UI convenience only, not the real security boundary: the server-side
+// requireCapability('media:manage') call in server/api/media/new.post.ts,
+// backed by RLS, is what actually blocks an upload.
+const { can } = usePlutoPermissions()
+const canManageMedia = computed(() => can('media:manage'))
+
 const imageList = computed(() => {
   return mediaList.value?.data.filter((item) => !item.name?.endsWith('.glb'))
 })
@@ -394,7 +400,7 @@ const isInsertButtonDisabled = computed(
                   </UButton>
 
                   <UButton
-                    v-if="!isUploaded && files"
+                    v-if="!isUploaded && files && canManageMedia"
                     :loading="isUploading"
                     :disabled="isUploaded"
                     icon="lucide:upload"

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/plutocms/supabase-storage/compare/v0.3.0...v0.4.0) (2026-09-12)
+
+
+### Features
+
+* **permissions:** gate media on named capabilities ([#25](https://github.com/plutocms/supabase-storage/issues/25)) ([5b4ef29](https://github.com/plutocms/supabase-storage/commit/5b4ef291ac86ddf16e37d6fb6a9f6b2c568a2b29))
+
 ## [0.3.0](https://github.com/plutocms/supabase-storage/compare/v0.2.0...v0.3.0) (2026-09-12)
 
 

@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.0](https://github.com/plutocms/supabase-storage/compare/v0.1.4...v0.2.0) (2026-09-12)
+
+
+### Features
+
+* **migrations:** convert to versioned db/migrations layout ([#20](https://github.com/plutocms/supabase-storage/issues/20)) ([90a745f](https://github.com/plutocms/supabase-storage/commit/90a745f7330fb66e3101786f8b2f84ccc9e3b5f2))
+
+
+### Bug Fixes
+
+* **deps:** move @nuxtjs/supabase to dependencies ([#16](https://github.com/plutocms/supabase-storage/issues/16)) ([a054c6d](https://github.com/plutocms/supabase-storage/commit/a054c6d4d83d9606d9e8bb6ccac7118e2e26d1bf))
+* **deps:** require @plutocms/supabase 0.4.1 ([#22](https://github.com/plutocms/supabase-storage/issues/22)) ([85d8e93](https://github.com/plutocms/supabase-storage/commit/85d8e93c782cf4b79bd3e81e9aa2a953df20f2e3))
+* **media:** decouple generic media from products, fix schema idempotency ([#19](https://github.com/plutocms/supabase-storage/issues/19)) ([b58761f](https://github.com/plutocms/supabase-storage/commit/b58761f3bcb6acd6d58e4f2cfe2bd5c189b0e696))
+* **media:** require admin for media uploads and mutations ([#18](https://github.com/plutocms/supabase-storage/issues/18)) ([5731a34](https://github.com/plutocms/supabase-storage/commit/5731a3405901648fba9b234f30a2c15cc69f8085))
+
 ## [0.1.4](https://github.com/plutocms/supabase-storage/compare/v0.1.3...v0.1.4) (2026-09-10)
 
 

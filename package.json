@@ -42,7 +42,8 @@
   },
   "overrides": {
     "@supabase/supabase-js": "2.87.1",
-    "cookie": "1.0.2"
+    "cookie": "1.0.2",
+    "typescript": "^5.9.3"
   },
   "trustedDependencies": [
     "@parcel/watcher",

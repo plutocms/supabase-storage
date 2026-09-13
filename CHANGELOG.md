@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/plutocms/supabase-storage/compare/v0.4.0...v0.4.1) (2026-09-13)
+
+
+### Bug Fixes
+
+* **deps:** bump supabase to ^0.8.0 ([#27](https://github.com/plutocms/supabase-storage/issues/27)) ([c6290d3](https://github.com/plutocms/supabase-storage/commit/c6290d3e1b70d22741490a57710ccf3a070674e5))
+
 ## [0.4.0](https://github.com/plutocms/supabase-storage/compare/v0.3.0...v0.4.0) (2026-09-12)
 
 

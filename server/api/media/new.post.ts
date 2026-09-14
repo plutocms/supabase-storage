@@ -1,8 +1,21 @@
 import { serverSupabaseClient } from '#supabase/server'
+import { z } from 'zod'
 
 const DEFAULT_MAX_BYTES = 10_485_760
 const DEFAULT_ALLOWED_MIME_TYPES =
   'image/*,model/gltf-binary,application/octet-stream'
+
+const ALT_MAX_LENGTH = 500
+
+/** Schema for the plain-text multipart fields (everything but the file itself). */
+const newMediaFieldsSchema = z.object({
+  alt: z
+    .string()
+    .max(ALT_MAX_LENGTH, {
+      message: `"alt" must be at most ${ALT_MAX_LENGTH} characters.`,
+    })
+    .optional(),
+})
 
 /** True when a Supabase Storage upload error means "an object already exists at this path". */
 function isStorageCollisionError(error: {
@@ -68,7 +81,11 @@ export default defineEventHandler(async (event) => {
   }
 
   const fileName = fileNameToKebabCase(filePart.filename)
-  const alt = altPart?.data.toString('utf-8')
+
+  const { alt } = validateFields(
+    { alt: altPart?.data.toString('utf-8') },
+    newMediaFieldsSchema
+  )
 
   let storagePath = resolveStoragePath(fileName)
 

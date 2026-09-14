@@ -5,3 +5,7 @@ with full detail, so this file stays short.
 
 See the workspace-level `CLAUDE.md` (one directory up) for the delegation, writing, and git
 policies shared by every project here.
+
+- Media library: upload, list, and delete files in Supabase Storage, plus the generic `media`
+  content-field widget and its `PlutoMediaAdapter`. See
+  @.claude/skills/media-library/SKILL.md.

@@ -3,13 +3,53 @@ import { serverSupabaseClient } from '#supabase/server'
 export default defineEventHandler(async (event) => {
   const client = await serverSupabaseClient<Database>(event)
 
-  const { data, error } = await client.from('media').select('*')
+  const query = getQuery(event)
 
-  if (error) {
-    throw createError({
-      message: 'error',
+  const limit = query.limit ? Number(query.limit) : 50
+  const offset = query.offset !== undefined ? Number(query.offset) : undefined
+  const search = typeof query.search === 'string' ? query.search : undefined
+  const ids =
+    typeof query.ids === 'string'
+      ? query.ids
+          .split(',')
+          .map((id) => Number(id))
+          .filter((id) => !Number.isNaN(id))
+      : undefined
+
+  let request = client
+    .from('media')
+    .select('id, created_at, name, alt, storage_path, mime_type, size', {
+      count: 'exact',
     })
+    .order('created_at', { ascending: false })
+
+  if (search) {
+    request = request.ilike('name', `%${search}%`)
   }
 
-  return { data }
+  // Non-standard: lets the media-field widget resolve a stored value's
+  // thumbnails directly by id, independent of pagination. The adapter
+  // itself never sends this param — only the widget does.
+  if (ids && ids.length > 0) {
+    request = request.in('id', ids)
+  }
+
+  request =
+    offset !== undefined
+      ? request.range(offset, offset + limit - 1)
+      : request.limit(limit)
+
+  const { data, error, count } = await request
+
+  if (error) {
+    console.error('Failed to list media:', error)
+    throw createError({ statusCode: 500, statusMessage: error.message })
+  }
+
+  const dataWithUrls = (data ?? []).map((row) => ({
+    ...row,
+    url: client.storage.from('media').getPublicUrl(resolveObjectKey(row)).data.publicUrl,
+  }))
+
+  return { data: dataWithUrls, total: count ?? undefined }
 })

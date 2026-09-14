@@ -3,7 +3,14 @@ useHead({
   title: 'Media',
 })
 
-const { getMediaUrl } = useMedia()
+const { removeMedia } = useMedia()
+
+// UI convenience only, not the real security boundary: the server-side
+// requireCapability('media:delete') call in
+// server/api/media/delete/[id].delete.ts, backed by RLS, is what actually
+// blocks a delete.
+const { can } = usePlutoPermissions()
+const canDeleteMedia = computed(() => can('media:delete'))
 
 const selectedMedia = ref<number[]>([])
 
@@ -29,6 +36,37 @@ function selectMedia(id: number) {
   }
 
   selectedMedia.value.push(id)
+}
+
+const toast = useToast()
+const isDeleting = ref<number | null>(null)
+
+async function deleteMedia(id: number) {
+  isDeleting.value = id
+
+  try {
+    await removeMedia(id)
+
+    selectedMedia.value = selectedMedia.value.filter(
+      (selectedId) => selectedId !== id
+    )
+
+    await refreshMediaList()
+
+    toast.add({
+      title: 'Media deleted',
+      description: 'The file was removed.',
+      color: 'success',
+    })
+  } catch (error) {
+    toast.add({
+      title: 'Could not delete media',
+      description: error instanceof Error ? error.message : 'Unknown error.',
+      color: 'error',
+    })
+  } finally {
+    isDeleting.value = null
+  }
 }
 </script>
 
@@ -82,10 +120,23 @@ function selectMedia(id: number) {
 
             <img
               v-if="file.name"
-              :src="getMediaUrl(file.name)"
+              :src="file.url"
               :alt="file.alt || file.name"
               class="h-full w-full object-contain"
             />
+
+            <div v-if="canDeleteMedia" class="absolute right-0 bottom-0 p-2">
+              <UButton
+                :loading="isDeleting === file.id"
+                :aria-label="`Delete ${file.name ?? 'media'}`"
+                color="error"
+                variant="solid"
+                icon="lucide:trash"
+                size="xs"
+                square
+                @click="deleteMedia(file.id)"
+              />
+            </div>
           </div>
         </div>
       </div>

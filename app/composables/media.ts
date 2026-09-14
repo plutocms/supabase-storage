@@ -1,6 +1,4 @@
 export function useMedia() {
-  const config = useRuntimeConfig()
-
   const {
     data: mediaList,
     refresh: refreshMediaList,
@@ -9,13 +7,27 @@ export function useMedia() {
     key: '/api/media/list',
   })
 
-  function getMediaUrl(fileName: string | null | undefined): string {
-    if (!fileName) {
+  /**
+   * Builds a public storage URL. Accepts either a bare filename (prefixed
+   * with `uploads/`, the historical calling convention) or a full
+   * `storage_path` (already has a `/`, used as-is) — so both an old caller
+   * passing a filename and a new one passing a row's `storage_path` work.
+   */
+  function getMediaUrl(fileNameOrPath: string | null | undefined): string {
+    if (!fileNameOrPath) {
       return ''
     }
 
-    return `${config.public.supabase.url}/storage/v1/object/public/media/uploads/${fileName}`
+    const path = fileNameOrPath.includes('/')
+      ? fileNameOrPath
+      : `uploads/${fileNameOrPath}`
+
+    return useSupabaseClient().storage.from('media').getPublicUrl(path).data.publicUrl
   }
 
-  return { mediaList, refreshMediaList, mediaStatus, getMediaUrl }
+  async function removeMedia(id: number): Promise<void> {
+    await $fetch(`/api/media/delete/${id}`, { method: 'DELETE' })
+  }
+
+  return { mediaList, refreshMediaList, mediaStatus, getMediaUrl, removeMedia }
 }

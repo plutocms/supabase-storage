@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/plutocms/supabase-storage/compare/v0.4.1...v0.5.0) (2026-09-14)
+
+
+### Features
+
+* **media:** generic media field widget and PlutoMediaAdapter ([#29](https://github.com/plutocms/supabase-storage/issues/29)) ([a56b082](https://github.com/plutocms/supabase-storage/commit/a56b08289b3e943e6945a61e62a0a59d27939c88))
+
 ## [0.4.1](https://github.com/plutocms/supabase-storage/compare/v0.4.0...v0.4.1) (2026-09-13)
 
 

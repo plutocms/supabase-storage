@@ -20,6 +20,12 @@ export default defineNuxtConfig({
         url: process.env.SUPABASE_URL || '',
         key: process.env.SUPABASE_KEY || '',
       },
+      // Mirrors the server-side upload limits, so the widget can
+      // pre-validate a file with the same numbers the server enforces.
+      plutoStorage: {
+        maxUploadBytes: Number(process.env.PLUTO_MEDIA_MAX_BYTES) || 10_485_760,
+        allowedMimeTypes: 'image/*,model/gltf-binary,application/octet-stream',
+      },
     },
   },
 })

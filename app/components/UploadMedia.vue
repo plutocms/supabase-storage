@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { fileNameToKebabCase } from '#imports'
 
+const { multiple = true } = defineProps<{
+  /** Allow more than one selection in the Gallery tab. Default true. */
+  multiple?: boolean
+}>()
+
 const emit = defineEmits<{
   insert: [value: EmitValue | EmitValue[] | null]
 }>()
@@ -94,8 +99,7 @@ onChange(async () => {
 const isUploaded = ref<boolean>(false)
 const isUploading = ref<boolean>(false)
 
-type Media = Database['public']['Tables']['media']['Row']
-const uploadedMedia = ref<Media | null>(null)
+const uploadedMedia = ref<EmitValue | null>(null)
 
 async function uploadMedia() {
   let response
@@ -173,7 +177,10 @@ const transformedSelectedMedia = computed<EmitValue[]>(() => {
   return value
 })
 
-type EmitValue = Database['public']['Tables']['media']['Row']
+// The list and upload routes now attach a computed public `url` to every
+// row they return (see the media-library skill) — this type reflects that
+// real response shape, not the bare table row.
+type EmitValue = Database['public']['Tables']['media']['Row'] & { url: string }
 
 function insertMedia() {
   if (currentTab.value === '0' || currentTab.value === '1') {
@@ -268,7 +275,11 @@ const isInsertButtonDisabled = computed(
                     <div class="rounded-bl-2xl bg-black/80 p-2">
                       <UCheckbox
                         :model-value="isSelected(file.id)"
-                        @change="selectMedia(file.id)"
+                        @change="
+                          multiple
+                            ? selectMedia(file.id)
+                            : selectSingleMedia(file.id)
+                        "
                       />
                     </div>
                   </label>
@@ -419,7 +430,9 @@ const isInsertButtonDisabled = computed(
 
     <ModalFooter>
       <div class="flex items-center gap-x-3">
-        <UButton variant="ghost" icon="lucide:x"> Close </UButton>
+        <UButton variant="ghost" icon="lucide:x" @click="closeMediaModal">
+          Close
+        </UButton>
 
         <UButton
           :disabled="isInsertButtonDisabled"

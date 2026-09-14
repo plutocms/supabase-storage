@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/plutocms/supabase-storage/compare/v0.5.0...v0.5.1) (2026-09-14)
+
+
+### Bug Fixes
+
+* **security:** validate the media alt field with zod ([#31](https://github.com/plutocms/supabase-storage/issues/31)) ([55ab87a](https://github.com/plutocms/supabase-storage/commit/55ab87a675ac02d5a365405ec5291911aac1b348))
+
 ## [0.5.0](https://github.com/plutocms/supabase-storage/compare/v0.4.1...v0.5.0) (2026-09-14)
 
 

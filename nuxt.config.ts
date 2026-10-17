@@ -12,7 +12,8 @@ export default defineNuxtConfig({
     name: 'supabase-storage',
   },
 
-  css: ['#layers/supabase-storage/app/assets/css/tailwind.css'],
+  // No `css` entry: the app owns the one Tailwind build, and Nuxt UI scans
+  // this layer's app/ dir. See the single-tailwind-build skill in pluto.
 
   runtimeConfig: {
     public: {

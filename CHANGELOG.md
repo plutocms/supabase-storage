@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0](https://github.com/plutocms/supabase-storage/compare/v0.5.3...v0.6.0) (2026-10-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **css:** This layer no longer adds a Tailwind entry. The app's CSS entry must start with:
+
+### Features
+
+* **css:** stop registering a Tailwind CSS entry ([#37](https://github.com/plutocms/supabase-storage/issues/37)) ([c96df98](https://github.com/plutocms/supabase-storage/commit/c96df988f28e9242fce04306a7db21f085e17e5b))
+
 ## [0.5.3](https://github.com/plutocms/supabase-storage/compare/v0.5.2...v0.5.3) (2026-10-17)
 
 

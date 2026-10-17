@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/plutocms/supabase-storage/compare/v0.5.2...v0.5.3) (2026-10-17)
+
+
+### Bug Fixes
+
+* **deps:** drop the typescript devDependency that conflicts with overrides ([#35](https://github.com/plutocms/supabase-storage/issues/35)) ([b9e815c](https://github.com/plutocms/supabase-storage/commit/b9e815cf875e6b39b5eaa8e32a50dac766b0c545))
+
 ## [0.5.2](https://github.com/plutocms/supabase-storage/compare/v0.5.1...v0.5.2) (2026-10-16)
 
 

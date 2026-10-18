@@ -8,4 +8,5 @@ policies shared by every project here.
 
 - Media library: upload, list, and delete files in Supabase Storage, plus the generic `media`
   content-field widget and its `PlutoMediaAdapter`. See
-  @.claude/skills/media-library/SKILL.md.
+  @.claude/skills/media-library/SKILL.md. The upload modal explains each rejected or failed
+  upload (wrong type, too big, server error).

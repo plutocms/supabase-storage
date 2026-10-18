@@ -7,7 +7,7 @@ and their metadata in the `media` table. It also gives every layer's content typ
 It adds:
 
 - `shared/utils/media-upload.ts` — pure helpers: `isAllowedUpload`, `assertUploadSize`,
-  `resolveStoragePath`, `resolveObjectKey`.
+  `resolveStoragePath`, `resolveObjectKey`, `formatBytes`, `describeUploadProblem`.
 - `server/api/media/new.post.ts` — upload route.
 - `server/api/media/list.get.ts` — list route.
 - `server/api/media/delete/[id].delete.ts` — delete route.
@@ -15,7 +15,8 @@ It adds:
 - `app/utils/media-adapter.ts` — `createSupabaseStorageMediaAdapter()`, a real
   `PlutoMediaAdapter`.
 - `app/components/PlutoMediaField.vue` — the `media` field widget.
-- `app/components/UploadMedia.vue` (extended) — the picker modal, now with a `multiple` prop.
+- `app/components/UploadMedia.vue` (extended) — the picker modal, now with a `multiple` prop and
+  upload feedback.
 - `app/plugins/pluto-extension.ts` (extended) — registers the adapter and the widget.
 - `db/migrations/004_media_backfill_storage_path.sql` — backfills `storage_path` on old rows.
 
@@ -56,6 +57,26 @@ Uploads a file and inserts its `media` row in one call.
   missing storage key is a harmless no-op remove. Deleting the row first, instead, would leak an
   orphaned file forever if the storage removal later failed.
 - Returns `{ id }`.
+
+## Upload feedback in `UploadMedia`
+
+The upload tab uses Nuxt UI `UFileUpload` (drag and drop, or click to browse). It tells the
+user why a file cannot be uploaded, in a `UAlert` beside the drop zone:
+
+- A file that does not match `accept` (`image/*,.glb`) — `UFileUpload` emits `reject`, and
+  the alert names the file and the allowed types.
+- A file over the size limit, or with a MIME type the server does not allow — the component
+  runs `describeUploadProblem(file, limits)` before it keeps the file. The alert gives the file
+  size and the limit (for example, `"huge.png" is 11 MB. The limit is 10 MB.`).
+- A failed upload — the alert shows the `statusMessage` of the route (413, 415, 500), or a
+  permission message on 403. The file stays selected, so the user can try again.
+
+The client reads the same limits as the route: `runtimeConfig.public.plutoStorage`
+(`allowedMimeTypes`, `maxUploadBytes`), with the same defaults. The client check is for the
+user only. The route still checks every upload.
+
+The preview shows the whole image (`object-contain`), not a crop. The gallery tiles use theme
+tokens (`bg-elevated`, `ring-primary`), not raw black, so they follow the admin theme.
 
 ## Capability model
 

@@ -58,25 +58,32 @@ export default defineEventHandler(async (event) => {
   const altPart = formData?.find((part) => part.name === 'alt')
 
   if (!filePart?.filename) {
-    throw createError({ statusCode: 400, statusMessage: 'No file sent.' })
+    throw createPlutoError({
+      statusCode: 400,
+      message: 'No file sent.',
+      key: 'supabase-storage.errors.noFile',
+    })
   }
 
   const mimeType = filePart.type ?? 'application/octet-stream'
 
   if (!isAllowedUpload(mimeType, filePart.filename, allowedMimeTypes)) {
-    throw createError({
+    throw createPlutoError({
       statusCode: 415,
-      statusMessage: `File type "${mimeType}" is not allowed.`,
+      message: `File type "${mimeType}" is not allowed.`,
+      key: 'supabase-storage.errors.typeNotAllowed',
+      params: { type: mimeType },
     })
   }
 
   try {
     assertUploadSize(filePart.data.length, maxBytes)
   } catch (error) {
-    throw createError({
+    throw createPlutoError({
       statusCode: 413,
-      statusMessage:
-        error instanceof Error ? error.message : 'File is too large.',
+      message: error instanceof Error ? error.message : 'File is too large.',
+      key: 'supabase-storage.errors.tooLarge',
+      params: { bytes: filePart.data.length, max: maxBytes },
     })
   }
 

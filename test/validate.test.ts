@@ -1,6 +1,12 @@
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { z } from 'zod'
 import { validateFields } from '../server/utils/validate'
+import { createPlutoErrorStub } from './fixtures/i18n-stub'
+
+// createPlutoError is a Nitro auto-import, so the test stubs it.
+beforeAll(() => {
+  vi.stubGlobal('createPlutoError', createPlutoErrorStub)
+})
 
 const schema = z.object({
   alt: z.string().max(5, { message: '"alt" must be at most 5 characters.' }).optional(),

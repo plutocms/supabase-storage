@@ -29,6 +29,8 @@ const emit = defineEmits<{
   'update:modelValue': [value: number | number[] | null]
 }>()
 
+const { t } = usePlutoI18n()
+
 const isOpen = ref(false)
 
 // Keyed by media id. Filled by the `?ids=` lookup on mount and by every
@@ -139,13 +141,13 @@ function removeAt(id: number) {
           v-else
           class="grid h-full w-full place-items-center px-2 text-center text-xs text-gray-500"
         >
-          Select media
+          {{ t('supabase-storage.field.selectMedia') }}
         </div>
       </div>
 
       <div class="flex flex-col gap-2">
         <UButton :disabled="disabled" size="sm" @click="openPicker">
-          {{ singleId !== null ? 'Change' : 'Select media' }}
+          {{ singleId !== null ? t('supabase-storage.field.change') : t('supabase-storage.field.selectMedia') }}
         </UButton>
 
         <UButton
@@ -156,7 +158,7 @@ function removeAt(id: number) {
           variant="outline"
           @click="clearSingle"
         >
-          Clear
+          {{ t('supabase-storage.field.clear') }}
         </UButton>
       </div>
     </div>
@@ -176,7 +178,7 @@ function removeAt(id: number) {
 
         <UButton
           :disabled="disabled"
-          :aria-label="`Remove media ${id}`"
+          :aria-label="t('supabase-storage.field.removeMedia', { id })"
           class="absolute top-1 right-1"
           size="xs"
           color="error"
@@ -189,8 +191,8 @@ function removeAt(id: number) {
 
       <button
         :disabled="disabled"
+        :aria-label="t('supabase-storage.field.addMedia')"
         type="button"
-        aria-label="Add media"
         class="grid h-20 w-20 place-items-center rounded-xl bg-black/10 hover:bg-black/20"
         @click="openPicker"
       >

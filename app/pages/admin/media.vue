@@ -1,6 +1,8 @@
 <script setup lang="ts">
+const { t } = usePlutoI18n()
+
 useHead({
-  title: 'Media',
+  title: () => t('supabase-storage.page.title'),
 })
 
 const { removeMedia } = useMedia()
@@ -54,14 +56,14 @@ async function deleteMedia(id: number) {
     await refreshMediaList()
 
     toast.add({
-      title: 'Media deleted',
-      description: 'The file was removed.',
+      title: t('supabase-storage.media.deleted'),
+      description: t('supabase-storage.media.deletedDescription'),
       color: 'success',
     })
   } catch (error) {
     toast.add({
-      title: 'Could not delete media',
-      description: error instanceof Error ? error.message : 'Unknown error.',
+      title: t('supabase-storage.media.deleteFailed'),
+      description: error instanceof Error ? error.message : t('supabase-storage.media.unknownError'),
       color: 'error',
     })
   } finally {
@@ -74,19 +76,21 @@ async function deleteMedia(id: number) {
   <main>
     <AdminView>
       <div class="flex flex-col gap-y-4">
-        <h1 class="text-4xl font-bold">Media</h1>
+        <h1 class="text-4xl font-bold">{{ t('supabase-storage.page.title') }}</h1>
 
         <div class="flex items-end justify-between">
           <div>
             <span v-if="selectedMedia.length === 0">
-              Showing {{ mediaList?.data.length }} file{{
-                mediaList?.data.length === 1 ? '' : 's'
-              }}
+              {{ t('supabase-storage.files.showing', mediaList?.data.length ?? 0) }}
             </span>
 
             <span v-else>
-              {{ selectedMedia.length }} of {{ mediaList?.data.length }} files
-              selected
+              {{
+                t('supabase-storage.files.selected', {
+                  selected: selectedMedia.length,
+                  count: mediaList?.data.length ?? 0,
+                })
+              }}
             </span>
           </div>
 
@@ -96,7 +100,7 @@ async function deleteMedia(id: number) {
               icon="lucide:refresh-cw"
               @click="refreshMediaList()"
             >
-              Refresh
+              {{ t('pluto.common.refresh') }}
             </UButton>
           </div>
         </div>
@@ -128,7 +132,7 @@ async function deleteMedia(id: number) {
             <div v-if="canDeleteMedia" class="absolute right-0 bottom-0 p-2">
               <UButton
                 :loading="isDeleting === file.id"
-                :aria-label="`Delete ${file.name ?? 'media'}`"
+                :aria-label="t('supabase-storage.media.deleteNamed', { name: file.name ?? t('supabase-storage.media.fallbackName') })"
                 color="error"
                 variant="solid"
                 icon="lucide:trash"

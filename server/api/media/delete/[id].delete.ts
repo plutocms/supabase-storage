@@ -7,7 +7,11 @@ export default defineEventHandler(async (event) => {
   const id = Number(idParam)
 
   if (!idParam || Number.isNaN(id)) {
-    throw createError({ statusCode: 400, statusMessage: 'Invalid media id.' })
+    throw createPlutoError({
+      statusCode: 400,
+      message: 'Invalid media id.',
+      key: 'supabase-storage.errors.invalidId',
+    })
   }
 
   const client = await serverSupabaseClient<Database>(event)
@@ -23,7 +27,11 @@ export default defineEventHandler(async (event) => {
   }
 
   if (!row) {
-    throw createError({ statusCode: 404, statusMessage: 'Media not found.' })
+    throw createPlutoError({
+      statusCode: 404,
+      message: 'Media not found.',
+      key: 'supabase-storage.errors.notFound',
+    })
   }
 
   const objectKey = resolveObjectKey(row)

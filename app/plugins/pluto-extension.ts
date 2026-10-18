@@ -7,7 +7,7 @@ export default defineNuxtPlugin(() => {
       {
         id: 'media',
         order: 400,
-        label: 'Media Library',
+        label: 'supabase-storage.nav.mediaLibrary',
         icon: 'lucide:images',
         to: '/admin/media',
       },
@@ -16,7 +16,7 @@ export default defineNuxtPlugin(() => {
       {
         id: 'media',
         path: '/admin/media',
-        title: 'Media Library',
+        title: 'supabase-storage.nav.mediaLibrary',
         icon: 'lucide:images',
       },
     ],
@@ -24,9 +24,9 @@ export default defineNuxtPlugin(() => {
       {
         id: 'media-manage',
         key: 'media:manage',
-        label: 'Upload and edit media',
+        label: 'supabase-storage.capabilities.manage',
       },
-      { id: 'media-delete', key: 'media:delete', label: 'Delete media' },
+      { id: 'media-delete', key: 'media:delete', label: 'supabase-storage.capabilities.delete' },
     ],
     // Bare `fieldType: 'media'` on purpose: core ships no widget for this
     // field type, leaving the slot open for exactly one storage layer to

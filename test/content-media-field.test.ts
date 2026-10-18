@@ -54,7 +54,7 @@ describe('validateContentPayload', () => {
     const errors = validateContentPayload(testType, { cover: '' })
 
     expect(errors).toEqual([
-      { field: 'cover', message: '"Cover" is required.' },
+      { field: 'cover', message: '"Cover" is required.', code: 'required' },
     ])
   })
 

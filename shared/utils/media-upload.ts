@@ -2,6 +2,8 @@
 // widget. No Nuxt, no Vue, no Supabase — plain functions, unit-tested in
 // isolation (see test/media-upload.test.ts).
 
+import en from '../../i18n/locales/en.json'
+
 /**
  * Checks a file's MIME type against an allow list.
  *
@@ -71,8 +73,14 @@ export function resolveObjectKey(row: {
   return row.storage_path ?? `uploads/${row.name ?? ''}`
 }
 
-/** Formats a byte count for people: "512 KB", "10 MB", "1.5 GB". */
-export function formatBytes(bytes: number): string {
+/**
+ * Formats a byte count for people: "512 KB", "10 MB", "1.5 GB".
+ *
+ * `locale` is optional. It sets the decimal mark of the number ("1,5 KB" in
+ * pt-BR). Without it, the number is plain ("1.5 KB"). The units stay the same
+ * in every language.
+ */
+export function formatBytes(bytes: number, locale?: string): string {
   const units = ['bytes', 'KB', 'MB', 'GB']
   let value = bytes
   let unit = 0
@@ -81,7 +89,10 @@ export function formatBytes(bytes: number): string {
     unit++
   }
   const rounded = unit === 0 || value >= 10 ? Math.round(value) : Math.round(value * 10) / 10
-  return `${rounded} ${units[unit]}`
+  const text = locale
+    ? new Intl.NumberFormat(locale, { useGrouping: false }).format(rounded)
+    : String(rounded)
+  return `${text} ${units[unit]}`
 }
 
 export interface UploadLimits {
@@ -90,22 +101,69 @@ export interface UploadLimits {
   maxBytes: number
 }
 
+/** A translation key with its values. The UI turns it into text with `t(key, params)`. */
+export interface UploadProblem {
+  key: 'supabase-storage.upload.problem.unsupportedType' | 'supabase-storage.upload.problem.tooLarge'
+  params: Record<string, string>
+}
+
 /**
- * Explains why a file cannot be uploaded, in words for the user, or returns
- * `null` when the file passes. It applies the same rules as the upload
- * route (`isAllowedUpload`, then the size limit), so the client can reject a
- * file before it sends it.
+ * Finds why a file cannot be uploaded, as a translation key and its values,
+ * or returns `null` when the file passes. It applies the same rules as the
+ * upload route (`isAllowedUpload`, then the size limit), so the client can
+ * reject a file before it sends it.
+ *
+ * `locale` sets the number format of the sizes in `params`.
+ */
+export function uploadProblem(
+  file: { name: string, type: string, size: number },
+  limits: UploadLimits,
+  locale?: string
+): UploadProblem | null {
+  const mimeType = file.type || 'application/octet-stream'
+  if (!isAllowedUpload(mimeType, file.name, limits.allowedMimeTypes)) {
+    return {
+      key: 'supabase-storage.upload.problem.unsupportedType',
+      params: { name: file.name },
+    }
+  }
+  if (file.size > limits.maxBytes) {
+    return {
+      key: 'supabase-storage.upload.problem.tooLarge',
+      params: {
+        name: file.name,
+        size: formatBytes(file.size, locale),
+        limit: formatBytes(limits.maxBytes, locale),
+      },
+    }
+  }
+  return null
+}
+
+/** Finds the English message of a key in `en.json`. */
+function englishMessage(key: string): string {
+  let node: unknown = en
+  for (const part of key.split('.')) {
+    node = (node as Record<string, unknown>)[part]
+  }
+  return node as string
+}
+
+/**
+ * Explains why a file cannot be uploaded, in English words for the user, or
+ * returns `null` when the file passes. It builds on `uploadProblem`. The
+ * admin UI uses `uploadProblem` and translates the key instead.
  */
 export function describeUploadProblem(
   file: { name: string, type: string, size: number },
   limits: UploadLimits
 ): string | null {
-  const mimeType = file.type || 'application/octet-stream'
-  if (!isAllowedUpload(mimeType, file.name, limits.allowedMimeTypes)) {
-    return `"${file.name}" is not a supported file type. Upload an image or a .glb 3D model.`
+  const problem = uploadProblem(file, limits)
+  if (!problem) {
+    return null
   }
-  if (file.size > limits.maxBytes) {
-    return `"${file.name}" is ${formatBytes(file.size)}. The limit is ${formatBytes(limits.maxBytes)}.`
-  }
-  return null
+  return englishMessage(problem.key).replace(
+    /\{(\w+)\}/g,
+    (_match, name: string) => problem.params[name] ?? ''
+  )
 }

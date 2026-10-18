@@ -156,3 +156,33 @@ two things is true:
 This layer's own `media` table stores each file once. Attaching many files to one content item,
 in a `multiple: true` field, is always the consuming content type's own concern, not something
 this layer's adapter or widget does for it.
+
+## Translation
+
+The admin text of this layer is translated with the i18n system of `@plutocms/pluto` (see the
+`i18n` skill in `pluto`). The shipped languages are `en` and `pt-BR`. The English text is the text
+that the UI showed before, byte for byte.
+
+- `i18n/locales/en.json` and `i18n/locales/pt-BR.json` hold all keys, in the `supabase-storage`
+  namespace. Shared words use `pluto.common.*` (`refresh`, `cancel`, `close`).
+- A registration holds a key, not text: `label: 'supabase-storage.nav.mediaLibrary'`. Pluto
+  resolves it with `tx()`.
+- A file count uses three plural forms (`zero | one | other`). Example:
+  `t('supabase-storage.files.showing', count)`. pt-BR treats 0 as plural here.
+- `uploadProblem(file, limits, locale?)` in `shared/utils/media-upload.ts` returns
+  `{ key, params }` or `null`. The upload modal shows `t(key, params)`. The sizes in `params` use
+  the number format of `locale`. `describeUploadProblem` builds on it and returns English text from
+  `en.json`. Its output does not change.
+- `formatBytes(bytes, locale?)` formats the number for a locale. The units (`KB`, `MB`) stay the
+  same. Without a locale, the output is the same as before.
+- The upload route and the delete route throw `createPlutoError` with a `supabase-storage.errors.*`
+  key. The `statusMessage` stays English. `UploadMedia.vue` shows the error with
+  `usePlutoErrorText()`. A 403 uses its own key, `supabase-storage.errors.noUploadPermission`.
+- A raw database or storage error message stays as the server sends it. The zod message of the
+  `alt` field stays English.
+- The file names and the alt text of a media row stay as stored.
+
+`test/i18n-locale-files.test.ts` checks that both locales have the same keys, placeholders, and
+plural forms. It also scans `app/`, `server/`, and `shared/` for literal keys. Each key must exist,
+and each `en.json` key must be used. In a test, stub `createPlutoError` with
+`createPlutoErrorStub` from `test/fixtures/i18n-stub.ts`.

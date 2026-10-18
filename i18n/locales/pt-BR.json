@@ -1,0 +1,65 @@
+{
+  "supabase-storage": {
+    "nav": {
+      "mediaLibrary": "Biblioteca de mídia"
+    },
+    "capabilities": {
+      "manage": "Enviar e editar mídia",
+      "delete": "Excluir mídia"
+    },
+    "page": {
+      "title": "Mídia"
+    },
+    "files": {
+      "showing": "Mostrando {count} arquivos | Mostrando {count} arquivo | Mostrando {count} arquivos",
+      "selected": "{selected} de {count} arquivos selecionados | {selected} de {count} arquivo selecionado | {selected} de {count} arquivos selecionados"
+    },
+    "upload": {
+      "title": "Inserir mídia",
+      "tabs": {
+        "gallery": "Galeria",
+        "models": "Modelos 3D",
+        "upload": "Enviar do seu computador"
+      },
+      "cancelSelection": "Cancelar seleção",
+      "threeDHint": "Só é possível selecionar um modelo 3D por vez.",
+      "dropLabel": "Solte uma imagem ou um modelo 3D .glb aqui",
+      "dropDescription": "Ou clique para procurar. Até {size}.",
+      "problemTitle": "Não foi possível enviar este arquivo",
+      "altLabel": "Texto alternativo",
+      "altPlaceholder": "Ex.: Imagem de um cachorro fofo",
+      "upload": "Enviar",
+      "uploading": "Enviando...",
+      "insert": "Inserir",
+      "insertSelected": "({count} selecionados) | ({count} selecionado) | ({count} selecionados)",
+      "problem": {
+        "unsupportedType": "\"{name}\" não é um tipo de arquivo compatível. Envie uma imagem ou um modelo 3D .glb.",
+        "tooLarge": "\"{name}\" tem {size}. O limite é {limit}."
+      }
+    },
+    "field": {
+      "selectMedia": "Selecionar mídia",
+      "change": "Alterar",
+      "clear": "Limpar",
+      "removeMedia": "Remover a mídia {id}",
+      "addMedia": "Adicionar mídia"
+    },
+    "media": {
+      "deleted": "Mídia excluída",
+      "deletedDescription": "O arquivo foi removido.",
+      "deleteFailed": "Não foi possível excluir a mídia",
+      "unknownError": "Erro desconhecido.",
+      "deleteNamed": "Excluir {name}",
+      "fallbackName": "mídia"
+    },
+    "errors": {
+      "noFile": "Nenhum arquivo foi enviado.",
+      "typeNotAllowed": "O tipo de arquivo \"{type}\" não é permitido.",
+      "tooLarge": "O arquivo tem {bytes} bytes. O limite é {max} bytes.",
+      "invalidId": "ID de mídia inválido.",
+      "notFound": "Mídia não encontrada.",
+      "noUploadPermission": "Você não tem permissão para enviar mídia.",
+      "uploadFailed": "Não foi possível concluir o envio. Tente novamente."
+    }
+  }
+}

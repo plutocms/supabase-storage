@@ -1,0 +1,65 @@
+{
+  "supabase-storage": {
+    "nav": {
+      "mediaLibrary": "Media Library"
+    },
+    "capabilities": {
+      "manage": "Upload and edit media",
+      "delete": "Delete media"
+    },
+    "page": {
+      "title": "Media"
+    },
+    "files": {
+      "showing": "Showing {count} files | Showing {count} file | Showing {count} files",
+      "selected": "{selected} of {count} files selected | {selected} of {count} files selected | {selected} of {count} files selected"
+    },
+    "upload": {
+      "title": "Insert media",
+      "tabs": {
+        "gallery": "Gallery",
+        "models": "3D Models",
+        "upload": "Upload from your computer"
+      },
+      "cancelSelection": "Cancel selection",
+      "threeDHint": "You can only select one 3D model at a time.",
+      "dropLabel": "Drop an image or a .glb 3D model here",
+      "dropDescription": "Or click to browse. Up to {size}.",
+      "problemTitle": "This file cannot be uploaded",
+      "altLabel": "Alt text",
+      "altPlaceholder": "e.g: Image of a cute dog",
+      "upload": "Upload",
+      "uploading": "Uploading...",
+      "insert": "Insert",
+      "insertSelected": "({count} selected) | ({count} selected) | ({count} selected)",
+      "problem": {
+        "unsupportedType": "\"{name}\" is not a supported file type. Upload an image or a .glb 3D model.",
+        "tooLarge": "\"{name}\" is {size}. The limit is {limit}."
+      }
+    },
+    "field": {
+      "selectMedia": "Select media",
+      "change": "Change",
+      "clear": "Clear",
+      "removeMedia": "Remove media {id}",
+      "addMedia": "Add media"
+    },
+    "media": {
+      "deleted": "Media deleted",
+      "deletedDescription": "The file was removed.",
+      "deleteFailed": "Could not delete media",
+      "unknownError": "Unknown error.",
+      "deleteNamed": "Delete {name}",
+      "fallbackName": "media"
+    },
+    "errors": {
+      "noFile": "No file sent.",
+      "typeNotAllowed": "File type \"{type}\" is not allowed.",
+      "tooLarge": "File is {bytes} bytes. The limit is {max} bytes.",
+      "invalidId": "Invalid media id.",
+      "notFound": "Media not found.",
+      "noUploadPermission": "You do not have permission to upload media.",
+      "uploadFailed": "The upload failed. Try again."
+    }
+  }
+}

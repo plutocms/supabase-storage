@@ -12,6 +12,10 @@ const isMediaModalOpen = defineModel<boolean>({
   default: false,
 })
 
+const { t, locale } = usePlutoI18n()
+// Read at setup, while the Nuxt context exists.
+const errorText = usePlutoErrorText()
+
 const { mediaList, refreshMediaList, mediaStatus, getMediaUrl } = useMedia()
 
 // UI convenience only, not the real security boundary: the server-side
@@ -42,19 +46,19 @@ watch(currentTab, () => {
   }
 })
 
-const tabs = ref([
+const tabs = computed(() => [
   {
-    label: 'Gallery',
+    label: t('supabase-storage.upload.tabs.gallery'),
     icon: 'lucide:blocks',
     slot: 'gallery',
   },
   {
-    label: '3D Models',
+    label: t('supabase-storage.upload.tabs.models'),
     icon: 'lucide:rotate-3d',
     slot: 'three-dimensional',
   },
   {
-    label: 'Upload from your computer',
+    label: t('supabase-storage.upload.tabs.upload'),
     icon: 'lucide:upload',
     slot: 'upload',
   },
@@ -82,11 +86,17 @@ const selectedFile = ref<File | null>(null)
 /** Why the last file could not be uploaded, for the user. */
 const uploadError = ref<string | null>(null)
 
+/** The text of a file problem, in the admin language. */
+function problemText(file: File): string | null {
+  const problem = uploadProblem(file, uploadLimits.value, locale.value)
+  return problem ? t(problem.key, problem.params) : null
+}
+
 watch(selectedFile, (file) => {
   if (!file) {
     return
   }
-  const problem = describeUploadProblem(file, uploadLimits.value)
+  const problem = problemText(file)
   uploadError.value = problem
   if (problem) {
     selectedFile.value = null
@@ -96,18 +106,18 @@ watch(selectedFile, (file) => {
 // UFileUpload emits `reject` for dropped files that do not match `accept`.
 function onReject(rejected: File[]) {
   uploadError.value = rejected
-    .map((file) => describeUploadProblem(file, uploadLimits.value)
-      ?? `"${file.name}" is not a supported file type. Upload an image or a .glb 3D model.`)
+    .map((file) => problemText(file)
+      ?? t('supabase-storage.upload.problem.unsupportedType', { name: file.name }))
     .join(' ')
 }
 
 /** The upload route's own message (413, 415, ...), in words for the user. */
 function uploadErrorMessage(error: unknown): string {
-  const failure = error as { statusCode?: number, statusMessage?: string, data?: { statusMessage?: string, message?: string } }
+  const failure = error as { statusCode?: number }
   if (failure?.statusCode === 403) {
-    return 'You do not have permission to upload media.'
+    return t('supabase-storage.errors.noUploadPermission')
   }
-  return failure?.data?.statusMessage || failure?.data?.message || failure?.statusMessage || 'The upload failed. Try again.'
+  return errorText(error, 'supabase-storage.errors.uploadFailed')
 }
 
 const isUploaded = ref<boolean>(false)
@@ -232,7 +242,7 @@ const isInsertButtonDisabled = computed(
 
 <template>
   <Modal v-model="isMediaModalOpen" :custom-size="1200" prevent-click-outside>
-    <ModalHeader @close="closeMediaModal">Insert media</ModalHeader>
+    <ModalHeader @close="closeMediaModal">{{ t('supabase-storage.upload.title') }}</ModalHeader>
 
     <ModalContent>
       <div>
@@ -243,14 +253,16 @@ const isInsertButtonDisabled = computed(
                 <div class="flex items-center gap-x-4">
                   <div>
                     <span v-if="selectedMedia.length === 0">
-                      Showing {{ imageList?.length }} file{{
-                        imageList?.length === 1 ? '' : 's'
-                      }}
+                      {{ t('supabase-storage.files.showing', imageList?.length ?? 0) }}
                     </span>
 
                     <span v-else>
-                      {{ selectedMedia.length }} of
-                      {{ imageList?.length }} files selected
+                      {{
+                        t('supabase-storage.files.selected', {
+                          selected: selectedMedia.length,
+                          count: imageList?.length ?? 0,
+                        })
+                      }}
                     </span>
                   </div>
 
@@ -261,7 +273,7 @@ const isInsertButtonDisabled = computed(
                       icon="lucide:x"
                       @click="selectedMedia = []"
                     >
-                      Cancel selection
+                      {{ t('supabase-storage.upload.cancelSelection') }}
                     </UButton>
                   </div>
                 </div>
@@ -272,7 +284,7 @@ const isInsertButtonDisabled = computed(
                     icon="lucide:refresh-cw"
                     @click="refreshMediaList()"
                   >
-                    Refresh
+                    {{ t('pluto.common.refresh') }}
                   </UButton>
                 </div>
               </div>
@@ -314,7 +326,7 @@ const isInsertButtonDisabled = computed(
           <template #three-dimensional>
             <div class="@container flex flex-col gap-y-6 pt-6">
               <div class="flex items-center justify-between">
-                <div>You can only select one 3D model at a time.</div>
+                <div>{{ t('supabase-storage.upload.threeDHint') }}</div>
 
                 <div>
                   <UButton
@@ -322,7 +334,7 @@ const isInsertButtonDisabled = computed(
                     icon="lucide:refresh-cw"
                     @click="refreshMediaList()"
                   >
-                    Refresh
+                    {{ t('pluto.common.refresh') }}
                   </UButton>
                 </div>
               </div>
@@ -369,10 +381,10 @@ const isInsertButtonDisabled = computed(
                 v-model="selectedFile"
                 :accept="UPLOAD_ACCEPT"
                 :disabled="isUploading || isUploaded"
-                :description="`Or click to browse. Up to ${formatBytes(uploadLimits.maxBytes)}.`"
+                :description="t('supabase-storage.upload.dropDescription', { size: formatBytes(uploadLimits.maxBytes, locale) })"
                 :ui="{ fileLeadingAvatar: 'size-full rounded-lg bg-elevated [&>img]:object-contain' }"
+                :label="t('supabase-storage.upload.dropLabel')"
                 icon="lucide:image-up"
-                label="Drop an image or a .glb 3D model here"
                 class="min-h-72 grow"
                 @reject="onReject"
               />
@@ -381,10 +393,10 @@ const isInsertButtonDisabled = computed(
                 <UAlert
                   v-if="uploadError"
                   :description="uploadError"
+                  :title="t('supabase-storage.upload.problemTitle')"
                   color="error"
                   variant="subtle"
                   icon="lucide:circle-alert"
-                  title="This file cannot be uploaded"
                   close
                   @update:open="uploadError = null"
                 />
@@ -398,10 +410,10 @@ const isInsertButtonDisabled = computed(
                 </div>
 
                 <div v-if="!isUploaded && selectedFile">
-                  <UFormField label="Alt text">
+                  <UFormField :label="t('supabase-storage.upload.altLabel')">
                     <UInput
                       v-model="form.alt"
-                      placeholder="e.g: Image of a cute dog"
+                      :placeholder="t('supabase-storage.upload.altPlaceholder')"
                     />
                   </UFormField>
                 </div>
@@ -414,7 +426,7 @@ const isInsertButtonDisabled = computed(
                     icon="lucide:x"
                     @click="removeImage"
                   >
-                    Cancel
+                    {{ t('pluto.common.cancel') }}
                   </UButton>
 
                   <UButton
@@ -424,7 +436,7 @@ const isInsertButtonDisabled = computed(
                     loading-icon="lucide:loader-circle"
                     @click="uploadMedia"
                   >
-                    Upload{{ isUploading ? 'ing...' : '' }}
+                    {{ isUploading ? t('supabase-storage.upload.uploading') : t('supabase-storage.upload.upload') }}
                   </UButton>
                 </div>
               </div>
@@ -437,7 +449,7 @@ const isInsertButtonDisabled = computed(
     <ModalFooter>
       <div class="flex items-center gap-x-3">
         <UButton variant="ghost" icon="lucide:x" @click="closeMediaModal">
-          Close
+          {{ t('pluto.common.close') }}
         </UButton>
 
         <UButton
@@ -446,9 +458,9 @@ const isInsertButtonDisabled = computed(
           icon="lucide:check"
           @click="insertMedia"
         >
-          Insert
+          {{ t('supabase-storage.upload.insert') }}
           <span v-show="selectedMedia.length > 0">
-            ({{ selectedMedia.length }} selected)
+            {{ t('supabase-storage.upload.insertSelected', selectedMedia.length) }}
           </span>
         </UButton>
       </div>

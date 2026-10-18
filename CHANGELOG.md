@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/plutocms/supabase-storage/compare/v0.6.0...v0.7.0) (2026-10-18)
+
+
+### Features
+
+* **media:** explain rejected and failed uploads in the upload modal ([#39](https://github.com/plutocms/supabase-storage/issues/39)) ([61c7ef8](https://github.com/plutocms/supabase-storage/commit/61c7ef806d4177f9ff2de5e86ef40856bcb8f1f1))
+
+
+### Bug Fixes
+
+* **deps:** use @plutocms/pluto 0.13 and @plutocms/supabase 0.9.1 ([#41](https://github.com/plutocms/supabase-storage/issues/41)) ([f84b3b4](https://github.com/plutocms/supabase-storage/commit/f84b3b423276839daa4dcd84e9651b5af21a7972))
+
 ## [0.6.0](https://github.com/plutocms/supabase-storage/compare/v0.5.3...v0.6.0) (2026-10-17)
 
 

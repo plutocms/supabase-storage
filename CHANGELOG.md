@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/plutocms/supabase-storage/compare/v0.7.0...v0.8.0) (2026-10-18)
+
+
+### Features
+
+* **i18n:** translate the media library ([#43](https://github.com/plutocms/supabase-storage/issues/43)) ([6dd9d57](https://github.com/plutocms/supabase-storage/commit/6dd9d574ba816824302947a5d97c116e86536674))
+
 ## [0.7.0](https://github.com/plutocms/supabase-storage/compare/v0.6.0...v0.7.0) (2026-10-18)
 
 

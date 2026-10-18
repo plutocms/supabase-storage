@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { fileNameToKebabCase } from '#imports'
-
 const { multiple = true } = defineProps<{
   /** Allow more than one selection in the Gallery tab. Default true. */
   multiple?: boolean
@@ -70,31 +68,47 @@ const form = ref<Form>({
   alt: '',
 })
 
-const { files, onChange, open, reset } = useFileDialog({
-  accept: 'image/*,.glb',
-})
+// The same limits the upload route applies (server/api/media/new.post.ts),
+// from the same runtime config, so the client rejects a file before it
+// sends it, with the same rules.
+const config = useRuntimeConfig()
+const uploadLimits = computed<UploadLimits>(() => ({
+  allowedMimeTypes: config.public.plutoStorage?.allowedMimeTypes ?? 'image/*,model/gltf-binary,application/octet-stream',
+  maxBytes: config.public.plutoStorage?.maxUploadBytes ?? 10_485_760,
+}))
+const UPLOAD_ACCEPT = 'image/*,.glb'
 
-const mediaBlobList = ref<string[]>([])
+const selectedFile = ref<File | null>(null)
+/** Why the last file could not be uploaded, for the user. */
+const uploadError = ref<string | null>(null)
 
-onChange(async () => {
-  const file = files.value?.[0]
-
+watch(selectedFile, (file) => {
   if (!file) {
     return
   }
-
-  if (!mediaBlobList.value) {
-    mediaBlobList.value = []
+  const problem = describeUploadProblem(file, uploadLimits.value)
+  uploadError.value = problem
+  if (problem) {
+    selectedFile.value = null
   }
-
-  const blob = useObjectURL(file).blob.value
-
-  if (!blob) {
-    return
-  }
-
-  mediaBlobList.value?.push(blob)
 })
+
+// UFileUpload emits `reject` for dropped files that do not match `accept`.
+function onReject(rejected: File[]) {
+  uploadError.value = rejected
+    .map((file) => describeUploadProblem(file, uploadLimits.value)
+      ?? `"${file.name}" is not a supported file type. Upload an image or a .glb 3D model.`)
+    .join(' ')
+}
+
+/** The upload route's own message (413, 415, ...), in words for the user. */
+function uploadErrorMessage(error: unknown): string {
+  const failure = error as { statusCode?: number, statusMessage?: string, data?: { statusMessage?: string, message?: string } }
+  if (failure?.statusCode === 403) {
+    return 'You do not have permission to upload media.'
+  }
+  return failure?.data?.statusMessage || failure?.data?.message || failure?.statusMessage || 'The upload failed. Try again.'
+}
 
 const isUploaded = ref<boolean>(false)
 const isUploading = ref<boolean>(false)
@@ -103,7 +117,7 @@ const uploadedMedia = ref<EmitValue | null>(null)
 
 async function uploadMedia() {
   let response
-  const file = files.value?.[0]
+  const file = selectedFile.value
 
   const formData = new FormData()
 
@@ -117,6 +131,7 @@ async function uploadMedia() {
 
   try {
     isUploading.value = true
+    uploadError.value = null
 
     response = await $fetch('/api/media/new', {
       method: 'POST',
@@ -129,16 +144,15 @@ async function uploadMedia() {
       uploadedMedia.value = response.data
     }
   } catch (error) {
-    console.error(error)
+    uploadError.value = uploadErrorMessage(error)
   } finally {
     isUploading.value = false
   }
 }
 
 function removeImage() {
-  mediaBlobList.value = []
-
-  reset()
+  selectedFile.value = null
+  uploadError.value = null
 }
 
 const selectedMedia = ref<number[]>([])
@@ -201,7 +215,9 @@ function insertMedia() {
 }
 
 function resetAll() {
-  reset()
+  removeImage()
+  isUploaded.value = false
+  uploadedMedia.value = null
 
   selectedMedia.value = []
 }
@@ -267,12 +283,12 @@ const isInsertButtonDisabled = computed(
                 <div
                   v-for="file in imageList"
                   :key="file.id"
-                  class="group/image-select relative aspect-square overflow-hidden rounded-2xl bg-black select-none hover:ring-1 has-aria-checked:ring-2 has-aria-checked:ring-green-400"
+                  class="group/image-select relative aspect-square overflow-hidden rounded-2xl bg-elevated select-none hover:ring-1 hover:ring-accented has-aria-checked:ring-2 has-aria-checked:ring-primary"
                 >
                   <label
                     class="absolute top-0 left-0 grid h-full w-full items-start justify-end"
                   >
-                    <div class="rounded-bl-2xl bg-black/80 p-2">
+                    <div class="rounded-bl-2xl bg-default/80 p-2">
                       <UCheckbox
                         :model-value="isSelected(file.id)"
                         @change="
@@ -317,12 +333,12 @@ const isInsertButtonDisabled = computed(
                 <div
                   v-for="file in threeDModelList"
                   :key="file.id"
-                  class="group/image-select relative aspect-square overflow-hidden rounded-2xl bg-black select-none hover:ring-1 has-aria-checked:ring-2 has-aria-checked:ring-green-400"
+                  class="group/image-select relative aspect-square overflow-hidden rounded-2xl bg-elevated select-none hover:ring-1 hover:ring-accented has-aria-checked:ring-2 has-aria-checked:ring-primary"
                 >
                   <label
                     class="absolute top-0 left-0 grid h-full w-full items-start justify-end"
                   >
-                    <div class="rounded-bl-2xl bg-black/80 p-2">
+                    <div class="rounded-bl-2xl bg-default/80 p-2">
                       <UCheckbox
                         :model-value="isSelected(file.id)"
                         @change="selectSingleMedia(file.id)"
@@ -339,7 +355,7 @@ const isInsertButtonDisabled = computed(
                         class="text-5xl opacity-20 transition-opacity group-hover/image-select:opacity-100"
                       />
 
-                      <div class="text-sm text-gray-500">{{ file.name }}</div>
+                      <div class="text-muted text-sm">{{ file.name }}</div>
                     </div>
                   </div>
                 </div>
@@ -348,49 +364,40 @@ const isInsertButtonDisabled = computed(
           </template>
 
           <template #upload>
-            <div class="flex gap-x-4">
-              <div
-                class="group relative aspect-video grow overflow-hidden rounded-3xl bg-black hover:bg-black/20"
-              >
-                <label
-                  v-if="!mediaBlobList || mediaBlobList?.length === 0"
-                  for="main-image"
-                  class="absolute top-0 left-0 h-full w-full"
-                  @click="open()"
+            <div class="flex flex-col gap-4 pt-6 lg:flex-row">
+              <UFileUpload
+                v-model="selectedFile"
+                :accept="UPLOAD_ACCEPT"
+                :disabled="isUploading || isUploaded"
+                :description="`Or click to browse. Up to ${formatBytes(uploadLimits.maxBytes)}.`"
+                :ui="{ fileLeadingAvatar: 'size-full rounded-lg bg-elevated [&>img]:object-contain' }"
+                icon="lucide:image-up"
+                label="Drop an image or a .glb 3D model here"
+                class="min-h-72 grow"
+                @reject="onReject"
+              />
+
+              <div class="flex w-full shrink-0 flex-col gap-y-4 lg:w-75">
+                <UAlert
+                  v-if="uploadError"
+                  :description="uploadError"
+                  color="error"
+                  variant="subtle"
+                  icon="lucide:circle-alert"
+                  title="This file cannot be uploaded"
+                  close
+                  @update:open="uploadError = null"
                 />
 
-                <div
-                  v-if="!mediaBlobList || mediaBlobList?.length === 0"
-                  class="pointer-events-none absolute top-0 left-0 grid h-full w-full place-items-center"
-                >
-                  <Icon
-                    name="lucide:plus"
-                    class="text-5xl opacity-20 transition-opacity group-hover:opacity-100"
-                  />
+                <div v-if="selectedFile" class="wrap-break-word">{{ selectedFile.name }}</div>
 
-                  <div class="text-sm text-gray-500">Click to upload</div>
-                </div>
-
-                <img
-                  v-if="mediaBlobList?.[0]"
-                  :src="mediaBlobList[0]"
-                  class="h-full w-full object-contain"
-                />
-              </div>
-
-              <div class="flex w-75 shrink-0 flex-col gap-y-4">
-                <div class="wrap-break-word">{{ files?.[0]?.name }}</div>
-
-                <div v-if="isUploaded && files?.[0]?.name" class="truncate">
-                  <ULink
-                    :href="getMediaUrl(fileNameToKebabCase(files[0].name))"
-                    target="_blank"
-                  >
-                    {{ getMediaUrl(fileNameToKebabCase(files[0].name)) }}
+                <div v-if="isUploaded && uploadedMedia" class="truncate">
+                  <ULink :href="uploadedMedia.url" target="_blank">
+                    {{ uploadedMedia.url }}
                   </ULink>
                 </div>
 
-                <div v-if="!isUploaded && mediaBlobList?.[0]">
+                <div v-if="!isUploaded && selectedFile">
                   <UFormField label="Alt text">
                     <UInput
                       v-model="form.alt"
@@ -401,7 +408,7 @@ const isInsertButtonDisabled = computed(
 
                 <div class="flex items-center gap-x-2">
                   <UButton
-                    v-if="!isUploaded && mediaBlobList?.length > 0"
+                    v-if="!isUploaded && selectedFile"
                     color="error"
                     variant="outline"
                     icon="lucide:x"
@@ -411,9 +418,8 @@ const isInsertButtonDisabled = computed(
                   </UButton>
 
                   <UButton
-                    v-if="!isUploaded && files && canManageMedia"
+                    v-if="!isUploaded && selectedFile && canManageMedia"
                     :loading="isUploading"
-                    :disabled="isUploaded"
                     icon="lucide:upload"
                     loading-icon="lucide:loader-circle"
                     @click="uploadMedia"

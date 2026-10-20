@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.9.0](https://github.com/plutocms/supabase-storage/compare/v0.8.0...v0.9.0) (2026-10-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** move to the pluto 0.16 admin shell ([#45](https://github.com/plutocms/supabase-storage/issues/45))
+
+### Features
+
+* **deps:** move to the pluto 0.16 admin shell ([#45](https://github.com/plutocms/supabase-storage/issues/45)) ([fc5633c](https://github.com/plutocms/supabase-storage/commit/fc5633c6062f62419ef5262d387d875cf1752d9d))
+
 ## [0.8.0](https://github.com/plutocms/supabase-storage/compare/v0.7.0...v0.8.0) (2026-10-18)
 
 

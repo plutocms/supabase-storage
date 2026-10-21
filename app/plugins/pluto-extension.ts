@@ -1,4 +1,10 @@
-import PlutoMediaField from '../components/PlutoMediaField.vue'
+import { defineAsyncComponent } from 'vue'
+
+// The field widget loads on demand and stays out of the entry chunk. Core
+// shows a skeleton while the chunk loads.
+const PlutoMediaField = defineAsyncComponent(
+  () => import('../components/PlutoMediaField.vue')
+)
 
 export default defineNuxtPlugin(() => {
   definePlutoExtension({

@@ -114,6 +114,9 @@ Two friction points, both by design:
 
 ## The widget: `PlutoMediaField.vue`
 
+The plugin registers the widget with `defineAsyncComponent`, so its code stays out of the entry
+chunk. Core shows a field skeleton while the chunk loads.
+
 Registered under a bare `fieldType: 'media'`, not a named `widget:` string. This is deliberate.
 `@plutocms/pluto` ships eight built-in field widgets but leaves `media` (and `richtext`) with no
 core widget on purpose, exactly so one layer can become the app-wide default for that field

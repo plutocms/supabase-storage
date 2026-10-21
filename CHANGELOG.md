@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.9.1](https://github.com/plutocms/supabase-storage/compare/v0.9.0...v0.9.1) (2026-10-21)
+
+
+### Bug Fixes
+
+* **deps:** use @plutocms/pluto 0.17 and @plutocms/supabase 0.11.1 ([#52](https://github.com/plutocms/supabase-storage/issues/52)) ([dedbe70](https://github.com/plutocms/supabase-storage/commit/dedbe70ac6b5cc138bbc774dd7674c32faa390c9))
+
+
+### Performance Improvements
+
+* **media:** load the media field on demand ([#51](https://github.com/plutocms/supabase-storage/issues/51)) ([d118653](https://github.com/plutocms/supabase-storage/commit/d1186530e545e5bc0bce6f7b33a8b2eb15fed2ac))
+
 ## [0.9.0](https://github.com/plutocms/supabase-storage/compare/v0.8.0...v0.9.0) (2026-10-20)
 
 

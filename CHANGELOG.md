@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.2](https://github.com/plutocms/supabase-storage/compare/v0.9.1...v0.9.2) (2026-10-22)
+
+
+### Bug Fixes
+
+* **db:** grant Data API access to the media table explicitly ([#55](https://github.com/plutocms/supabase-storage/issues/55)) ([c807c73](https://github.com/plutocms/supabase-storage/commit/c807c7347d258d19a99fd8c6ed2918757c02f9cc))
+
 ## [0.9.1](https://github.com/plutocms/supabase-storage/compare/v0.9.0...v0.9.1) (2026-10-21)
 
 

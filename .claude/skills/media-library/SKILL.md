@@ -189,3 +189,7 @@ that the UI showed before, byte for byte.
 plural forms. It also scans `app/`, `server/`, and `shared/` for literal keys. Each key must exist,
 and each `en.json` key must be used. In a test, stub `createPlutoError` with
 `createPlutoErrorStub` from `test/fixtures/i18n-stub.ts`.
+
+## Data API grants
+
+`db/migrations/005_data_api_grants.sql` grants `public.media` for the Data API (anon `select` only, authenticated and service_role `select, insert, update, delete`). The `storage` schema is not part of this change. A new table in this layer needs a grant in the same migration file. See the `layer-migrations` skill in `@plutocms/supabase`.

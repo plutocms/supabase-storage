@@ -16,13 +16,13 @@ For the full feature list with detailed documentation, see [FEATURES.md](./FEATU
 
 1. Make sure you have a Supabase project set up with the required environment variables.
 
-2. Add the `@plutocms/supabase-storage` layer via `extends` option in your `nuxt.config.ts`:
+2. Install `@plutocms/supabase-storage` (`npm i @plutocms/supabase-storage`, or pnpm or Bun). Then add it via `extends` option in your `nuxt.config.ts`:
 
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  extends: [['github:plutocms/supabase-storage', { install: true }]],
+  extends: [['@plutocms/supabase-storage', { install: true }]],
 })
 ```
 
-This layer requires `@plutocms/supabase` and `@plutocms/pluto` as peer dependencies.
+This layer depends on `@plutocms/supabase` and `@plutocms/pluto`. They are real dependencies, so npm, pnpm and Bun install them with the layer. The layer brings `@plutocms/supabase`, which brings `@plutocms/pluto`. List only `@plutocms/supabase-storage` in your app.

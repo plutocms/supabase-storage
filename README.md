@@ -1,6 +1,6 @@
-# Supabase Storage Layer for Pluto CMS
+# Supabase Storage Layer for Pluto
 
-This layer provides media and file storage functionality for Pluto CMS, built on Supabase Storage.
+This layer provides media and file storage functionality for Pluto, built on Supabase Storage.
 
 ## Features
 

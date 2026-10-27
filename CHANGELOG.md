@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.1](https://github.com/plutocms/supabase-storage/compare/v0.12.0...v0.12.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* **deps:** use @plutocms/pluto 0.28 ([#65](https://github.com/plutocms/supabase-storage/issues/65)) ([5264a27](https://github.com/plutocms/supabase-storage/commit/5264a2706dd06eb94e98b17960540cd6ae11dbb8))
+
 ## [0.12.0](https://github.com/plutocms/supabase-storage/compare/v0.11.0...v0.12.0) (2026-10-27)
 
 

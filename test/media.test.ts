@@ -2,13 +2,13 @@ import type { Database } from '../shared/types/supabase'
 import { describe, expect, expectTypeOf, it, vi } from 'vitest'
 
 // Guards the schema/type-generation drift that broke this repo's typecheck:
-// server/api/media/* query a `media` table that the shared Database types
+// server/api/_pluto/storage/media/* query a `media` table that the shared Database types
 // didn't declare, and the type only exists once the CLI-generated snapshot
 // (shared/types/supabase.ts, gitignored, regenerated per environment) is
 // in place. This asserts the shape that snapshot must have, not the live
 // database.
 describe('media table shape', () => {
-  it('declares the columns server/api/media/*.ts and UploadMedia.vue depend on', () => {
+  it('declares the columns server/api/_pluto/storage/media/*.ts and UploadMedia.vue depend on', () => {
     type MediaRow = Database['public']['Tables']['media']['Row']
 
     expectTypeOf<MediaRow>().toHaveProperty('id').toEqualTypeOf<number>()
@@ -37,7 +37,7 @@ describe('media table shape', () => {
     // package's own type-snapshot fix is published.
 
     // `media` has no persisted url column (unlike supabase-shop's
-    // product_media) — server/api/media/list.get.ts computes it per row
+    // product_media) — server/api/_pluto/storage/media/index.get.ts computes it per row
     // via client.storage.from('media').getPublicUrl(...).
     expectTypeOf<MediaRow>().not.toHaveProperty('url')
   })
@@ -106,7 +106,7 @@ describe('removeMedia', () => {
 
     await removeMedia(42)
 
-    expect(fetchMock).toHaveBeenCalledWith('/api/media/delete/42', {
+    expect(fetchMock).toHaveBeenCalledWith('/api/_pluto/storage/media/42', {
       method: 'DELETE',
     })
 

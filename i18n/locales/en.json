@@ -59,7 +59,10 @@
       "invalidId": "Invalid media id.",
       "notFound": "Media not found.",
       "noUploadPermission": "You do not have permission to upload media.",
-      "uploadFailed": "The upload failed. Try again."
+      "uploadFailed": "The upload failed. Try again.",
+      "listFailed": "The media list could not be read.",
+      "saveFailed": "The media file could not be saved.",
+      "deleteFailed": "The media file could not be deleted."
     }
   }
 }

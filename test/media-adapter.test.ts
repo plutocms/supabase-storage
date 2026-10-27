@@ -14,7 +14,7 @@ describe('createSupabaseStorageMediaAdapter', () => {
     expect(adapter.getUrl('never-cached')).toBe('')
   })
 
-  it('list() calls /api/media/list with limit/offset/search and maps rows to PlutoMediaItem', async () => {
+  it('list() calls /api/_pluto/storage/media with limit/offset/search and maps rows to PlutoMediaItem', async () => {
     const fetchMock = vi.fn(async () => ({
       data: [
         {
@@ -36,7 +36,7 @@ describe('createSupabaseStorageMediaAdapter', () => {
 
     const result = await adapter.list({ limit: 10, offset: 0, search: 'cov' })
 
-    expect(fetchMock).toHaveBeenCalledWith('/api/media/list', {
+    expect(fetchMock).toHaveBeenCalledWith('/api/_pluto/storage/media', {
       query: { limit: 10, offset: 0, search: 'cov' },
     })
 
@@ -81,7 +81,7 @@ describe('createSupabaseStorageMediaAdapter', () => {
     const item = await adapter.upload(file, { alt: 'Logo' })
 
     expect(fetchMock).toHaveBeenCalledWith(
-      '/api/media/new',
+      '/api/_pluto/storage/media',
       expect.objectContaining({ method: 'POST' })
     )
     expect(capturedBody).toBeInstanceOf(FormData)
@@ -132,7 +132,7 @@ describe('createSupabaseStorageMediaAdapter', () => {
 
     await adapter.remove('3')
 
-    expect(deleteFetch).toHaveBeenCalledWith('/api/media/delete/3', {
+    expect(deleteFetch).toHaveBeenCalledWith('/api/_pluto/storage/media/3', {
       method: 'DELETE',
     })
     expect(adapter.getUrl('3')).toBe('')

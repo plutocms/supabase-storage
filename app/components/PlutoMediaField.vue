@@ -60,7 +60,7 @@ async function resolveThumbnails(ids: number[]) {
     return
   }
 
-  const { data } = await $fetch<{ data: MediaThumb[] }>('/api/media/list', {
+  const { data } = await $fetch<{ data: MediaThumb[] }>('/api/_pluto/storage/media', {
     query: { ids: missing.join(',') },
   })
 

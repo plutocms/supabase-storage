@@ -3,8 +3,8 @@ export function useMedia() {
     data: mediaList,
     refresh: refreshMediaList,
     status: mediaStatus,
-  } = useFetch('/api/media/list', {
-    key: '/api/media/list',
+  } = useFetch('/api/_pluto/storage/media', {
+    key: '/api/_pluto/storage/media',
   })
 
   /**
@@ -26,7 +26,7 @@ export function useMedia() {
   }
 
   async function removeMedia(id: number): Promise<void> {
-    await $fetch(`/api/media/delete/${id}`, { method: 'DELETE' })
+    await $fetch(`/api/_pluto/storage/media/${id}`, { method: 'DELETE' })
   }
 
   return { mediaList, refreshMediaList, mediaStatus, getMediaUrl, removeMedia }

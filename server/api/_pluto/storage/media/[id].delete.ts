@@ -1,5 +1,15 @@
 import { serverSupabaseClient } from '#supabase/server'
 
+// DELETE /api/_pluto/storage/media/:id: removes the file and its row. Needs `media:delete`.
+
+function deleteFailed() {
+  return createPlutoError({
+    statusCode: 500,
+    message: 'The media file could not be deleted.',
+    key: 'supabase-storage.errors.deleteFailed',
+  })
+}
+
 export default defineEventHandler(async (event) => {
   await requireCapability(event, 'media:delete')
 
@@ -23,7 +33,8 @@ export default defineEventHandler(async (event) => {
     .maybeSingle()
 
   if (fetchError) {
-    throw createError({ statusCode: 500, statusMessage: fetchError.message })
+    console.error(`Failed to read media ${id}:`, fetchError.message)
+    throw deleteFailed()
   }
 
   if (!row) {
@@ -55,15 +66,9 @@ export default defineEventHandler(async (event) => {
     .delete()
     .eq('id', id)
 
-  if (storageError && deleteError) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: `Failed to remove storage object (${storageError.message}) and failed to delete row (${deleteError.message}).`,
-    })
-  }
-
   if (deleteError) {
-    throw createError({ statusCode: 500, statusMessage: deleteError.message })
+    console.error(`Failed to delete the row of media ${id}:`, deleteError.message)
+    throw deleteFailed()
   }
 
   return { id }

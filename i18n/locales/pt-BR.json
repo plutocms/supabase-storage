@@ -59,7 +59,10 @@
       "invalidId": "ID de mídia inválido.",
       "notFound": "Mídia não encontrada.",
       "noUploadPermission": "Você não tem permissão para enviar mídia.",
-      "uploadFailed": "Não foi possível concluir o envio. Tente novamente."
+      "uploadFailed": "Não foi possível concluir o envio. Tente novamente.",
+      "listFailed": "Não foi possível ler a lista de mídia.",
+      "saveFailed": "Não foi possível salvar o arquivo de mídia.",
+      "deleteFailed": "Não foi possível excluir o arquivo de mídia."
     }
   }
 }

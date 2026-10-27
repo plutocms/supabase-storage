@@ -7,7 +7,7 @@ This layer provides media and file storage functionality for Pluto, built on Sup
 This layer provides:
 
 - A media library admin page to upload, list, and delete files in Supabase Storage.
-- API routes for media management (upload, list, delete).
+- Internal admin routes under `/api/_pluto/storage/media` (`GET` list, `POST` upload, `DELETE /:id`). A public site gets image URLs through the public API of Pluto (`/api/pluto/v1/content/<type>`, see https://pluto.vulmix.dev/core/public-api).
 - A generic `media` content-field widget usable by any content layer to attach media to content types.
 
 For the full feature list with detailed documentation, see [FEATURES.md](./FEATURES.md).

@@ -1,6 +1,6 @@
 // The real `PlutoMediaAdapter` implementation for this layer. Registered
 // client-side (see app/plugins/pluto-extension.ts) — every method calls
-// this layer's own /api/media/* routes with $fetch, never Supabase
+// this layer's own /api/_pluto/storage/media routes with $fetch, never Supabase
 // directly, since requireCapability only runs server-side and is the real
 // security boundary.
 
@@ -46,7 +46,7 @@ export function createSupabaseStorageMediaAdapter(): PlutoMediaAdapter {
       const { data, total } = await $fetch<{
         data: MediaRow[]
         total?: number
-      }>('/api/media/list', {
+      }>('/api/_pluto/storage/media', {
         query: {
           limit: options.limit,
           offset: options.offset,
@@ -65,7 +65,7 @@ export function createSupabaseStorageMediaAdapter(): PlutoMediaAdapter {
         formData.append('alt', meta.alt)
       }
 
-      const { data } = await $fetch<{ data: MediaRow }>('/api/media/new', {
+      const { data } = await $fetch<{ data: MediaRow }>('/api/_pluto/storage/media', {
         method: 'POST',
         body: formData,
       })
@@ -74,7 +74,7 @@ export function createSupabaseStorageMediaAdapter(): PlutoMediaAdapter {
     },
 
     async remove(id) {
-      await $fetch(`/api/media/delete/${id}`, { method: 'DELETE' })
+      await $fetch(`/api/_pluto/storage/media/${id}`, { method: 'DELETE' })
       urlCache.delete(id)
     },
 

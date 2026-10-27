@@ -8,9 +8,9 @@ It adds:
 
 - `shared/utils/media-upload.ts` — pure helpers: `isAllowedUpload`, `assertUploadSize`,
   `resolveStoragePath`, `resolveObjectKey`, `formatBytes`, `describeUploadProblem`.
-- `server/api/media/new.post.ts` — upload route.
-- `server/api/media/list.get.ts` — list route.
-- `server/api/media/delete/[id].delete.ts` — delete route.
+- `server/api/_pluto/storage/media/index.post.ts` — upload route.
+- `server/api/_pluto/storage/media/index.get.ts` — list route.
+- `server/api/_pluto/storage/media/[id].delete.ts` — delete route.
 - `app/composables/media.ts` — `useMedia()`, with `getMediaUrl` and `removeMedia`.
 - `app/utils/media-adapter.ts` — `createSupabaseStorageMediaAdapter()`, a real
   `PlutoMediaAdapter`.
@@ -22,7 +22,14 @@ It adds:
 
 ## Routes
 
-### `POST /api/media/new`
+The routes are internal: they are under `/api/_pluto/storage/`, for the admin. Core blocks a
+cross-site write to `/api/_pluto/**`. A public site does not list the library: it gets image URLs
+from the public API of the content that uses them (see the content-model skill of
+`@plutocms/pluto`). A server error answers `createPlutoError` with a key
+(`supabase-storage.errors.listFailed`, `uploadFailed`, `saveFailed`, `deleteFailed`) and logs the
+raw database text; the answer never holds it.
+
+### `POST /api/_pluto/storage/media`
 
 Uploads a file and inserts its `media` row in one call.
 
@@ -40,7 +47,7 @@ Uploads a file and inserts its `media` row in one call.
   error.
 - Returns `{ data: { ...row, url } }`. The caller never has to build the public URL itself.
 
-### `GET /api/media/list`
+### `GET /api/_pluto/storage/media`
 
 - Query params: `limit` (default 50), `offset`, `search` (matches `name`), and `ids`
   (comma-separated). `ids` is not part of the `PlutoMediaAdapter` contract — the adapter never
@@ -49,7 +56,7 @@ Uploads a file and inserts its `media` row in one call.
 - Orders by `created_at desc`.
 - Returns `{ data, total }`. Each row in `data` carries a computed `url`.
 
-### `DELETE /api/media/delete/:id`
+### `DELETE /api/_pluto/storage/media/:id`
 
 - Needs the `media:delete` capability.
 - Rejects a non-numeric id with 400, and a missing row with 404.
@@ -95,7 +102,7 @@ replaces the server check.
 Implements `PlutoMediaAdapter` from `@plutocms/pluto` (`list`, `upload`, `remove`, `getUrl`).
 Registered client-side, through `mediaAdapters` on `definePlutoExtension` — unlike
 `PlutoContentAdapter`, which registers server-side. Every method calls this layer's own
-`/api/media/*` routes with `$fetch`. It never calls Supabase directly: `requireCapability` only
+`/api/_pluto/storage/media` routes with `$fetch`. It never calls Supabase directly: `requireCapability` only
 runs server-side, so a client-side Supabase call would have no real gate behind it.
 
 Two friction points, both by design:
@@ -133,7 +140,7 @@ not the larger main-image-plus-strip layout `PlutoProductMediaField.vue` uses �
 suits a full product-editing page; this one suits a single field inside any generic form.
 
 On mount, if the field already has a value, the widget resolves thumbnails through
-`GET /api/media/list?ids=<ids>` — it skips this call when the value is empty. It never depends
+`GET /api/_pluto/storage/media?ids=<ids>` — it skips this call when the value is empty. It never depends
 on the adapter's `getUrl()` cache, since a page can load a saved value before any `list()` call
 has ever run in that session.
 

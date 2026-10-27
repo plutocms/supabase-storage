@@ -1,3 +1,4 @@
+// POST /api/_pluto/storage/media: uploads one file (multipart `file`, `alt`). Needs `media:manage`.
 import { z } from 'zod'
 import { serverSupabaseClient } from '#supabase/server'
 
@@ -117,9 +118,11 @@ export default defineEventHandler(async (event) => {
   }
 
   if (uploadResult.error) {
-    throw createError({
+    console.error('Failed to upload a media file:', uploadResult.error.message)
+    throw createPlutoError({
       statusCode: 500,
-      statusMessage: uploadResult.error.message,
+      message: 'The upload failed. Try again.',
+      key: 'supabase-storage.errors.uploadFailed',
     })
   }
 
@@ -152,7 +155,12 @@ export default defineEventHandler(async (event) => {
       )
     }
 
-    throw createError({ statusCode: 500, statusMessage: error.message })
+    console.error('Failed to save a media row:', error.message)
+    throw createPlutoError({
+      statusCode: 500,
+      message: 'The media file could not be saved.',
+      key: 'supabase-storage.errors.saveFailed',
+    })
   }
 
   const { data: urlData } = client.storage

@@ -9,7 +9,7 @@ const { removeMedia } = useMedia()
 
 // UI convenience only, not the real security boundary: the server-side
 // requireCapability('media:delete') call in
-// server/api/media/delete/[id].delete.ts, backed by RLS, is what actually
+// server/api/_pluto/storage/media/[id].delete.ts, backed by RLS, is what actually
 // blocks a delete.
 const { can } = usePlutoPermissions()
 const canDeleteMedia = computed(() => can('media:delete'))
@@ -20,8 +20,8 @@ const {
   data: mediaList,
   refresh: refreshMediaList,
   status: mediaStatus,
-} = useFetch('/api/media/list', {
-  key: '/api/media/list',
+} = useFetch('/api/_pluto/storage/media', {
+  key: '/api/_pluto/storage/media',
 })
 
 function isSelected(id: number) {

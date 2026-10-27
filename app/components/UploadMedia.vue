@@ -19,7 +19,7 @@ const errorText = usePlutoErrorText()
 const { mediaList, refreshMediaList, mediaStatus, getMediaUrl } = useMedia()
 
 // UI convenience only, not the real security boundary: the server-side
-// requireCapability('media:manage') call in server/api/media/new.post.ts,
+// requireCapability('media:manage') call in server/api/_pluto/storage/media/index.post.ts,
 // backed by RLS, is what actually blocks an upload.
 const { can } = usePlutoPermissions()
 const canManageMedia = computed(() => can('media:manage'))
@@ -72,7 +72,7 @@ const form = ref<Form>({
   alt: '',
 })
 
-// The same limits the upload route applies (server/api/media/new.post.ts),
+// The same limits the upload route applies (server/api/_pluto/storage/media/index.post.ts),
 // from the same runtime config, so the client rejects a file before it
 // sends it, with the same rules.
 const config = useRuntimeConfig()
@@ -143,7 +143,7 @@ async function uploadMedia() {
     isUploading.value = true
     uploadError.value = null
 
-    response = await $fetch('/api/media/new', {
+    response = await $fetch('/api/_pluto/storage/media', {
       method: 'POST',
       body: formData,
     })

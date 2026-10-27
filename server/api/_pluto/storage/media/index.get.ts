@@ -1,5 +1,8 @@
 import { serverSupabaseClient } from '#supabase/server'
 
+// GET /api/_pluto/storage/media: the media library of the admin. An internal route: a public
+// site reads images through the URLs that the public API gives (see core's public API).
+
 export default defineEventHandler(async (event) => {
   const client = await serverSupabaseClient<Database>(event)
 
@@ -43,7 +46,11 @@ export default defineEventHandler(async (event) => {
 
   if (error) {
     console.error('Failed to list media:', error)
-    throw createError({ statusCode: 500, statusMessage: error.message })
+    throw createPlutoError({
+      statusCode: 500,
+      message: 'The media list could not be read.',
+      key: 'supabase-storage.errors.listFailed',
+    })
   }
 
   const dataWithUrls = (data ?? []).map((row) => ({

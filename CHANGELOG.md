@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.12.0](https://github.com/plutocms/supabase-storage/compare/v0.11.0...v0.12.0) (2026-10-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* the media routes moved under `/api/_pluto/storage/media`.
+
+### Features
+
+* move the media routes under /api/_pluto/storage/media ([#63](https://github.com/plutocms/supabase-storage/issues/63)) ([9a03ff9](https://github.com/plutocms/supabase-storage/commit/9a03ff9d2cc465381466af224bbd49825b795e2f))
+
 ## [0.11.0](https://github.com/plutocms/supabase-storage/compare/v0.10.0...v0.11.0) (2026-10-25)
 
 

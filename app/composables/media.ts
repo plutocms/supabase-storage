@@ -22,7 +22,8 @@ export function useMedia() {
       ? fileNameOrPath
       : `uploads/${fileNameOrPath}`
 
-    return useSupabaseClient().storage.from('media').getPublicUrl(path).data.publicUrl
+    return useSupabaseClient().storage.from('media').getPublicUrl(path).data
+      .publicUrl
   }
 
   async function removeMedia(id: number): Promise<void> {

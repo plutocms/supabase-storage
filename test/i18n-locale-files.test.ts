@@ -119,7 +119,9 @@ function sourceFiles(folder: string): string[] {
 const KEY_LITERAL =
   /(['"`])((?:supabase-storage|pluto)\.[\w-]+(?:\.[\w-]+)+)\1/g
 
-function usedKeys(namespace: 'supabase-storage' | 'pluto'): Map<string, string[]> {
+function usedKeys(
+  namespace: 'supabase-storage' | 'pluto'
+): Map<string, string[]> {
   const used = new Map<string, string[]>()
 
   for (const folder of ['app', 'server', 'shared']) {

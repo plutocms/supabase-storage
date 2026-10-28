@@ -88,7 +88,8 @@ export function formatBytes(bytes: number, locale?: string): string {
     value /= 1024
     unit++
   }
-  const rounded = unit === 0 || value >= 10 ? Math.round(value) : Math.round(value * 10) / 10
+  const rounded =
+    unit === 0 || value >= 10 ? Math.round(value) : Math.round(value * 10) / 10
   const text = locale
     ? new Intl.NumberFormat(locale, { useGrouping: false }).format(rounded)
     : String(rounded)
@@ -103,7 +104,9 @@ export interface UploadLimits {
 
 /** A translation key with its values. The UI turns it into text with `t(key, params)`. */
 export interface UploadProblem {
-  key: 'supabase-storage.upload.problem.unsupportedType' | 'supabase-storage.upload.problem.tooLarge'
+  key:
+    | 'supabase-storage.upload.problem.unsupportedType'
+    | 'supabase-storage.upload.problem.tooLarge'
   params: Record<string, string>
 }
 
@@ -116,7 +119,7 @@ export interface UploadProblem {
  * `locale` sets the number format of the sizes in `params`.
  */
 export function uploadProblem(
-  file: { name: string, type: string, size: number },
+  file: { name: string; type: string; size: number },
   limits: UploadLimits,
   locale?: string
 ): UploadProblem | null {
@@ -155,7 +158,7 @@ function englishMessage(key: string): string {
  * admin UI uses `uploadProblem` and translates the key instead.
  */
 export function describeUploadProblem(
-  file: { name: string, type: string, size: number },
+  file: { name: string; type: string; size: number },
   limits: UploadLimits
 ): string | null {
   const problem = uploadProblem(file, limits)

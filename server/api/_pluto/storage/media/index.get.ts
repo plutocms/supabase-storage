@@ -55,7 +55,8 @@ export default defineEventHandler(async (event) => {
 
   const dataWithUrls = (data ?? []).map((row) => ({
     ...row,
-    url: client.storage.from('media').getPublicUrl(resolveObjectKey(row)).data.publicUrl,
+    url: client.storage.from('media').getPublicUrl(resolveObjectKey(row)).data
+      .publicUrl,
   }))
 
   return { data: dataWithUrls, total: count ?? undefined }

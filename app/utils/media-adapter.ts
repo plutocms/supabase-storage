@@ -65,10 +65,13 @@ export function createSupabaseStorageMediaAdapter(): PlutoMediaAdapter {
         formData.append('alt', meta.alt)
       }
 
-      const { data } = await $fetch<{ data: MediaRow }>('/api/_pluto/storage/media', {
-        method: 'POST',
-        body: formData,
-      })
+      const { data } = await $fetch<{ data: MediaRow }>(
+        '/api/_pluto/storage/media',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      )
 
       return toMediaItem(data)
     },

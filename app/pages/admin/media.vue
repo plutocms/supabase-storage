@@ -63,7 +63,10 @@ async function deleteMedia(id: number) {
   } catch (error) {
     toast.add({
       title: t('supabase-storage.media.deleteFailed'),
-      description: error instanceof Error ? error.message : t('supabase-storage.media.unknownError'),
+      description:
+        error instanceof Error
+          ? error.message
+          : t('supabase-storage.media.unknownError'),
       color: 'error',
     })
   } finally {
@@ -76,12 +79,16 @@ async function deleteMedia(id: number) {
   <main>
     <AdminView>
       <div class="flex flex-col gap-y-4">
-        <h1 class="text-4xl font-bold">{{ t('supabase-storage.page.title') }}</h1>
+        <h1 class="text-4xl font-bold">
+          {{ t('supabase-storage.page.title') }}
+        </h1>
 
         <div class="flex items-end justify-between">
           <div>
             <span v-if="selectedMedia.length === 0">
-              {{ t('supabase-storage.files.showing', mediaList?.data.length ?? 0) }}
+              {{
+                t('supabase-storage.files.showing', mediaList?.data.length ?? 0)
+              }}
             </span>
 
             <span v-else>
@@ -109,10 +116,10 @@ async function deleteMedia(id: number) {
           <div
             v-for="file in mediaList?.data"
             :key="file.id"
-            class="group/image-select relative aspect-square overflow-hidden rounded-2xl bg-black select-none hover:ring-1 has-[[aria-checked='true']]:ring-2 has-[[aria-checked='true']]:ring-green-400"
+            class="group/image-select relative aspect-square overflow-hidden rounded-2xl bg-black select-none hover:ring-1 has-aria-checked:ring-2 has-aria-checked:ring-green-400"
           >
             <label
-              class="absolute top-0 left-0 grid h-full w-full items-start justify-end"
+              class="absolute top-0 left-0 grid size-full items-start justify-end"
             >
               <div class="rounded-bl-2xl bg-black/80 p-2">
                 <UCheckbox
@@ -126,13 +133,17 @@ async function deleteMedia(id: number) {
               v-if="file.name"
               :src="file.url"
               :alt="file.alt || file.name"
-              class="h-full w-full object-contain"
+              class="size-full object-contain"
             />
 
             <div v-if="canDeleteMedia" class="absolute right-0 bottom-0 p-2">
               <UButton
                 :loading="isDeleting === file.id"
-                :aria-label="t('supabase-storage.media.deleteNamed', { name: file.name ?? t('supabase-storage.media.fallbackName') })"
+                :aria-label="
+                  t('supabase-storage.media.deleteNamed', {
+                    name: file.name ?? t('supabase-storage.media.fallbackName'),
+                  })
+                "
                 color="error"
                 variant="solid"
                 icon="lucide:trash"

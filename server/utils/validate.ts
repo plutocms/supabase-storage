@@ -23,12 +23,10 @@ export function validateFields<T>(input: unknown, schema: ZodType<T>): T {
   const result = schema.safeParse(input)
 
   if (!result.success) {
-    const errors: FieldValidationError[] = result.error.issues.map(
-      (issue) => ({
-        field: issue.path.join('.'),
-        message: issue.message,
-      })
-    )
+    const errors: FieldValidationError[] = result.error.issues.map((issue) => ({
+      field: issue.path.join('.'),
+      message: issue.message,
+    }))
 
     throw createPlutoError({
       statusCode: 400,

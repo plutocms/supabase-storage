@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.13.0](https://github.com/plutocms/supabase-storage/compare/v0.12.1...v0.13.0) (2026-10-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove the public schema stub ([#67](https://github.com/plutocms/supabase-storage/issues/67))
+
+### Features
+
+* remove the public schema stub ([#67](https://github.com/plutocms/supabase-storage/issues/67)) ([ccc5b63](https://github.com/plutocms/supabase-storage/commit/ccc5b63267fe0d9e0edb7c37625175b9299fc79c))
+
+
+### Bug Fixes
+
+* **deps:** use @plutocms/pluto 0.29, @plutocms/supabase 0.15 and @plutocms/utils 0.3 ([#69](https://github.com/plutocms/supabase-storage/issues/69)) ([11375a7](https://github.com/plutocms/supabase-storage/commit/11375a7a376adab077957991d7d77a5fb32b5a09))
+
 ## [0.12.1](https://github.com/plutocms/supabase-storage/compare/v0.12.0...v0.12.1) (2026-10-27)
 
 

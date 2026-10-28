@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.1](https://github.com/plutocms/supabase-storage/compare/v0.13.0...v0.13.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* **deps:** use @plutocms/pluto 0.30; Prettier formatting and canonical Tailwind classes ([#70](https://github.com/plutocms/supabase-storage/issues/70)) ([4ea5126](https://github.com/plutocms/supabase-storage/commit/4ea5126a4ba3153f3a5c71b4aaf2b13e2ce63251))
+
 ## [0.13.0](https://github.com/plutocms/supabase-storage/compare/v0.12.1...v0.13.0) (2026-10-28)
 
 

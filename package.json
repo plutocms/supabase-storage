@@ -30,14 +30,14 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^9.5.1",
+    "@antfu/eslint-config": "^10.0.0",
     "@nuxt/eslint": "^1.17.0",
     "@nuxt/ui": "^4.12.0",
-    "@vueuse/nuxt": "^14.4.0",
-    "eslint": "^10.12.0",
+    "@vueuse/nuxt": "^15.0.0",
+    "eslint": "^10.13.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-better-tailwindcss": "^4.10.0",
-    "nuxt": "^4.6.1",
+    "nuxt": "^4.6.2",
     "prettier": "^3.9.10",
     "vitest": "^5.0.5",
     "vue": "3.5.44",

@@ -109,10 +109,10 @@ async function deleteMedia(id: number) {
           <div
             v-for="file in mediaList?.data"
             :key="file.id"
-            class="group/image-select relative aspect-square overflow-hidden rounded-2xl bg-black select-none hover:ring-1 has-[[aria-checked='true']]:ring-2 has-[[aria-checked='true']]:ring-green-400"
+            class="group/image-select relative aspect-square overflow-hidden rounded-2xl bg-black select-none hover:ring-1 has-aria-checked:ring-2 has-aria-checked:ring-green-400"
           >
             <label
-              class="absolute top-0 left-0 grid h-full w-full items-start justify-end"
+              class="absolute top-0 left-0 grid size-full items-start justify-end"
             >
               <div class="rounded-bl-2xl bg-black/80 p-2">
                 <UCheckbox
@@ -126,7 +126,7 @@ async function deleteMedia(id: number) {
               v-if="file.name"
               :src="file.url"
               :alt="file.alt || file.name"
-              class="h-full w-full object-contain"
+              class="size-full object-contain"
             />
 
             <div v-if="canDeleteMedia" class="absolute right-0 bottom-0 p-2">

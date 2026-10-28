@@ -298,7 +298,7 @@ const isInsertButtonDisabled = computed(
                   class="group/image-select relative aspect-square overflow-hidden rounded-2xl bg-elevated select-none hover:ring-1 hover:ring-accented has-aria-checked:ring-2 has-aria-checked:ring-primary"
                 >
                   <label
-                    class="absolute top-0 left-0 grid h-full w-full items-start justify-end"
+                    class="absolute top-0 left-0 grid size-full items-start justify-end"
                   >
                     <div class="rounded-bl-2xl bg-default/80 p-2">
                       <UCheckbox
@@ -316,7 +316,7 @@ const isInsertButtonDisabled = computed(
                     v-if="file.name"
                     :src="getMediaUrl(file.name)"
                     :alt="file.alt || file.name"
-                    class="h-full w-full object-contain"
+                    class="size-full object-contain"
                   />
                 </div>
               </div>
@@ -348,7 +348,7 @@ const isInsertButtonDisabled = computed(
                   class="group/image-select relative aspect-square overflow-hidden rounded-2xl bg-elevated select-none hover:ring-1 hover:ring-accented has-aria-checked:ring-2 has-aria-checked:ring-primary"
                 >
                   <label
-                    class="absolute top-0 left-0 grid h-full w-full items-start justify-end"
+                    class="absolute top-0 left-0 grid size-full items-start justify-end"
                   >
                     <div class="rounded-bl-2xl bg-default/80 p-2">
                       <UCheckbox

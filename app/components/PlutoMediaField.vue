@@ -129,17 +129,17 @@ function removeAt(id: number) {
   >
     <div v-if="!field.multiple" class="flex items-center gap-3">
       <div
-        class="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-black/10"
+        class="relative size-24 shrink-0 overflow-hidden rounded-xl bg-black/10"
       >
         <img
           v-if="singleId !== null && thumbs.get(singleId)?.url"
           :src="thumbs.get(singleId)!.url"
           :alt="thumbs.get(singleId)?.alt ?? ''"
-          class="h-full w-full object-cover"
+          class="size-full object-cover"
         />
         <div
           v-else
-          class="grid h-full w-full place-items-center px-2 text-center text-xs text-gray-500"
+          class="grid size-full place-items-center px-2 text-center text-xs text-gray-500"
         >
           {{ t('supabase-storage.field.selectMedia') }}
         </div>
@@ -167,13 +167,13 @@ function removeAt(id: number) {
       <div
         v-for="id in multipleIds"
         :key="id"
-        class="relative h-20 w-20 overflow-hidden rounded-xl bg-black/10"
+        class="relative size-20 overflow-hidden rounded-xl bg-black/10"
       >
         <img
           v-if="thumbs.get(id)?.url"
           :src="thumbs.get(id)!.url"
           :alt="thumbs.get(id)?.alt ?? ''"
-          class="h-full w-full object-cover"
+          class="size-full object-cover"
         />
 
         <UButton
@@ -193,7 +193,7 @@ function removeAt(id: number) {
         :disabled="disabled"
         :aria-label="t('supabase-storage.field.addMedia')"
         type="button"
-        class="grid h-20 w-20 place-items-center rounded-xl bg-black/10 hover:bg-black/20"
+        class="grid size-20 place-items-center rounded-xl bg-black/10 hover:bg-black/20"
         @click="openPicker"
       >
         <Icon name="lucide:plus" class="text-2xl" />

@@ -77,7 +77,9 @@ const form = ref<Form>({
 // sends it, with the same rules.
 const config = useRuntimeConfig()
 const uploadLimits = computed<UploadLimits>(() => ({
-  allowedMimeTypes: config.public.plutoStorage?.allowedMimeTypes ?? 'image/*,model/gltf-binary,application/octet-stream',
+  allowedMimeTypes:
+    config.public.plutoStorage?.allowedMimeTypes ??
+    'image/*,model/gltf-binary,application/octet-stream',
   maxBytes: config.public.plutoStorage?.maxUploadBytes ?? 10_485_760,
 }))
 const UPLOAD_ACCEPT = 'image/*,.glb'
@@ -106,8 +108,13 @@ watch(selectedFile, (file) => {
 // UFileUpload emits `reject` for dropped files that do not match `accept`.
 function onReject(rejected: File[]) {
   uploadError.value = rejected
-    .map((file) => problemText(file)
-      ?? t('supabase-storage.upload.problem.unsupportedType', { name: file.name }))
+    .map(
+      (file) =>
+        problemText(file) ??
+        t('supabase-storage.upload.problem.unsupportedType', {
+          name: file.name,
+        })
+    )
     .join(' ')
 }
 
@@ -242,7 +249,9 @@ const isInsertButtonDisabled = computed(
 
 <template>
   <Modal v-model="isMediaModalOpen" :custom-size="1200" prevent-click-outside>
-    <ModalHeader @close="closeMediaModal">{{ t('supabase-storage.upload.title') }}</ModalHeader>
+    <ModalHeader @close="closeMediaModal">
+      {{ t('supabase-storage.upload.title') }}
+    </ModalHeader>
 
     <ModalContent>
       <div>
@@ -253,7 +262,12 @@ const isInsertButtonDisabled = computed(
                 <div class="flex items-center gap-x-4">
                   <div>
                     <span v-if="selectedMedia.length === 0">
-                      {{ t('supabase-storage.files.showing', imageList?.length ?? 0) }}
+                      {{
+                        t(
+                          'supabase-storage.files.showing',
+                          imageList?.length ?? 0
+                        )
+                      }}
                     </span>
 
                     <span v-else>
@@ -381,8 +395,15 @@ const isInsertButtonDisabled = computed(
                 v-model="selectedFile"
                 :accept="UPLOAD_ACCEPT"
                 :disabled="isUploading || isUploaded"
-                :description="t('supabase-storage.upload.dropDescription', { size: formatBytes(uploadLimits.maxBytes, locale) })"
-                :ui="{ fileLeadingAvatar: 'size-full rounded-lg bg-elevated [&>img]:object-contain' }"
+                :description="
+                  t('supabase-storage.upload.dropDescription', {
+                    size: formatBytes(uploadLimits.maxBytes, locale),
+                  })
+                "
+                :ui="{
+                  fileLeadingAvatar:
+                    'size-full rounded-lg bg-elevated [&>img]:object-contain',
+                }"
                 :label="t('supabase-storage.upload.dropLabel')"
                 icon="lucide:image-up"
                 class="min-h-72 grow"
@@ -401,7 +422,9 @@ const isInsertButtonDisabled = computed(
                   @update:open="uploadError = null"
                 />
 
-                <div v-if="selectedFile" class="wrap-break-word">{{ selectedFile.name }}</div>
+                <div v-if="selectedFile" class="wrap-break-word">
+                  {{ selectedFile.name }}
+                </div>
 
                 <div v-if="isUploaded && uploadedMedia" class="truncate">
                   <ULink :href="uploadedMedia.url" target="_blank">
@@ -436,7 +459,11 @@ const isInsertButtonDisabled = computed(
                     loading-icon="lucide:loader-circle"
                     @click="uploadMedia"
                   >
-                    {{ isUploading ? t('supabase-storage.upload.uploading') : t('supabase-storage.upload.upload') }}
+                    {{
+                      isUploading
+                        ? t('supabase-storage.upload.uploading')
+                        : t('supabase-storage.upload.upload')
+                    }}
                   </UButton>
                 </div>
               </div>
@@ -460,7 +487,9 @@ const isInsertButtonDisabled = computed(
         >
           {{ t('supabase-storage.upload.insert') }}
           <span v-show="selectedMedia.length > 0">
-            {{ t('supabase-storage.upload.insertSelected', selectedMedia.length) }}
+            {{
+              t('supabase-storage.upload.insertSelected', selectedMedia.length)
+            }}
           </span>
         </UButton>
       </div>

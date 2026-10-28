@@ -88,7 +88,11 @@ describe('data API grants (supabase-storage)', () => {
     const expected: Record<string, Record<string, string>> = {}
 
     for (const table of ['media']) {
-      expected[table] = { anon: 'select', authenticated: crud, service_role: crud }
+      expected[table] = {
+        anon: 'select',
+        authenticated: crud,
+        service_role: crud,
+      }
     }
 
     expect(matrix(read('005_data_api_grants.sql'))).toEqual(expected)

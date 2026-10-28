@@ -32,7 +32,11 @@ export default defineNuxtPlugin(() => {
         key: 'media:manage',
         label: 'supabase-storage.capabilities.manage',
       },
-      { id: 'media-delete', key: 'media:delete', label: 'supabase-storage.capabilities.delete' },
+      {
+        id: 'media-delete',
+        key: 'media:delete',
+        label: 'supabase-storage.capabilities.delete',
+      },
     ],
     // Bare `fieldType: 'media'` on purpose: core ships no widget for this
     // field type, leaving the slot open for exactly one storage layer to

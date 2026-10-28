@@ -9,7 +9,10 @@ beforeAll(() => {
 })
 
 const schema = z.object({
-  alt: z.string().max(5, { message: '"alt" must be at most 5 characters.' }).optional(),
+  alt: z
+    .string()
+    .max(5, { message: '"alt" must be at most 5 characters.' })
+    .optional(),
 })
 
 describe('validateFields', () => {
@@ -31,7 +34,7 @@ describe('validateFields', () => {
       const h3Error = error as {
         statusCode: number
         statusMessage: string
-        data: { errors: { field: string, message: string }[] }
+        data: { errors: { field: string; message: string }[] }
       }
       expect(h3Error.statusCode).toBe(400)
       expect(h3Error.statusMessage).toBe('Validation failed.')

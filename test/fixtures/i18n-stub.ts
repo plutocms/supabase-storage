@@ -2,7 +2,7 @@
 // test fixtures, so this file builds the same stubs from the shipped engine.
 import {
   createTranslator,
-  flattenMessages
+  flattenMessages,
 } from '@plutocms/pluto/app/composables/internal/i18n-core'
 import plutoEn from '@plutocms/pluto/i18n/locales/en.json'
 import storageEn from '../../i18n/locales/en.json'

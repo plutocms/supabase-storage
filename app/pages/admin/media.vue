@@ -63,7 +63,10 @@ async function deleteMedia(id: number) {
   } catch (error) {
     toast.add({
       title: t('supabase-storage.media.deleteFailed'),
-      description: error instanceof Error ? error.message : t('supabase-storage.media.unknownError'),
+      description:
+        error instanceof Error
+          ? error.message
+          : t('supabase-storage.media.unknownError'),
       color: 'error',
     })
   } finally {
@@ -76,12 +79,16 @@ async function deleteMedia(id: number) {
   <main>
     <AdminView>
       <div class="flex flex-col gap-y-4">
-        <h1 class="text-4xl font-bold">{{ t('supabase-storage.page.title') }}</h1>
+        <h1 class="text-4xl font-bold">
+          {{ t('supabase-storage.page.title') }}
+        </h1>
 
         <div class="flex items-end justify-between">
           <div>
             <span v-if="selectedMedia.length === 0">
-              {{ t('supabase-storage.files.showing', mediaList?.data.length ?? 0) }}
+              {{
+                t('supabase-storage.files.showing', mediaList?.data.length ?? 0)
+              }}
             </span>
 
             <span v-else>
@@ -132,7 +139,11 @@ async function deleteMedia(id: number) {
             <div v-if="canDeleteMedia" class="absolute right-0 bottom-0 p-2">
               <UButton
                 :loading="isDeleting === file.id"
-                :aria-label="t('supabase-storage.media.deleteNamed', { name: file.name ?? t('supabase-storage.media.fallbackName') })"
+                :aria-label="
+                  t('supabase-storage.media.deleteNamed', {
+                    name: file.name ?? t('supabase-storage.media.fallbackName'),
+                  })
+                "
                 color="error"
                 variant="solid"
                 icon="lucide:trash"

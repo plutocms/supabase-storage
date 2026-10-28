@@ -67,7 +67,10 @@ export default defineEventHandler(async (event) => {
     .eq('id', id)
 
   if (deleteError) {
-    console.error(`Failed to delete the row of media ${id}:`, deleteError.message)
+    console.error(
+      `Failed to delete the row of media ${id}:`,
+      deleteError.message
+    )
     throw deleteFailed()
   }
 

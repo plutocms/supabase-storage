@@ -1,7 +1,7 @@
 import { defineContentType } from '@plutocms/pluto/shared/utils/content'
 import {
   mapColumnsToFields,
-  mapFieldsToColumns
+  mapFieldsToColumns,
 } from '@plutocms/pluto/shared/utils/content-map'
 import { validateContentPayload } from '@plutocms/pluto/shared/utils/content-validate'
 import { describe, expect, it } from 'vitest'

@@ -60,9 +60,12 @@ async function resolveThumbnails(ids: number[]) {
     return
   }
 
-  const { data } = await $fetch<{ data: MediaThumb[] }>('/api/_pluto/storage/media', {
-    query: { ids: missing.join(',') },
-  })
+  const { data } = await $fetch<{ data: MediaThumb[] }>(
+    '/api/_pluto/storage/media',
+    {
+      query: { ids: missing.join(',') },
+    }
+  )
 
   for (const row of data) {
     thumbs.value.set(row.id, row)
@@ -147,7 +150,11 @@ function removeAt(id: number) {
 
       <div class="flex flex-col gap-2">
         <UButton :disabled="disabled" size="sm" @click="openPicker">
-          {{ singleId !== null ? t('supabase-storage.field.change') : t('supabase-storage.field.selectMedia') }}
+          {{
+            singleId !== null
+              ? t('supabase-storage.field.change')
+              : t('supabase-storage.field.selectMedia')
+          }}
         </UButton>
 
         <UButton

@@ -1,7 +1,7 @@
 {
   "name": "@plutocms/supabase-storage",
   "type": "module",
-  "version": "0.13.4",
+  "version": "0.13.5",
   "description": "Storage/media layer for Pluto",
   "author": "Victor Ribeiro",
   "license": "MIT",

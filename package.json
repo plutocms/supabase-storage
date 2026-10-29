@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "@nuxtjs/supabase": "2.1.0",
-    "@plutocms/pluto": "^0.32.0",
-    "@plutocms/supabase": "^0.15.2",
+    "@plutocms/pluto": "^0.33.0",
+    "@plutocms/supabase": "^0.15.3",
     "@plutocms/utils": "^0.3.0",
     "zod": "^4.6.7"
   },

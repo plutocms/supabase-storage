@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.3](https://github.com/plutocms/supabase-storage/compare/v0.13.2...v0.13.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* **deps:** use @plutocms/pluto 0.33 and @plutocms/supabase 0.15.3 ([#76](https://github.com/plutocms/supabase-storage/issues/76)) ([7177dde](https://github.com/plutocms/supabase-storage/commit/7177ddec110246a8fe76d632f0017a5119d8b8df))
+
 ## [0.13.2](https://github.com/plutocms/supabase-storage/compare/v0.13.1...v0.13.2) (2026-10-29)
 
 

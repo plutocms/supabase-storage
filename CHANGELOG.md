@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.5](https://github.com/plutocms/supabase-storage/compare/v0.13.4...v0.13.5) (2026-10-29)
+
+
+### Bug Fixes
+
+* **deps:** accept every 0.x version of the [@plutocms](https://github.com/plutocms) packages; shared CI and the update workflow ([#80](https://github.com/plutocms/supabase-storage/issues/80)) ([cbe0db4](https://github.com/plutocms/supabase-storage/commit/cbe0db4d8c33a5594a2c608dcdf97bffef9682e2))
+
 ## [0.13.4](https://github.com/plutocms/supabase-storage/compare/v0.13.3...v0.13.4) (2026-10-29)
 
 

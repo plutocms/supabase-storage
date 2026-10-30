@@ -24,12 +24,12 @@ LAYERS=(
   plutocms/pluto
   plutocms/supabase
   plutocms/nuxt-content
-  plutocms/supabase-storage
   plutocms/supabase-shop
   plutocms/supabase-blog
 )
 # Wave 2: the Pluto org apps.
 PLUTO_APPS=(
+  plutocms/pluto-admin-template
   plutocms/pluto-blog-template
   plutocms/pluto-supabase-shop-template
   plutocms/plutocms

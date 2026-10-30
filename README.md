@@ -1,5 +1,12 @@
 # Supabase Storage Layer for Pluto
 
+> [!IMPORTANT]
+> This layer is retired. The media library is in the core of Pluto now: one Media page, one `media`
+> field widget and one picker for every backend. [`@plutocms/supabase`](https://github.com/plutocms/supabase)
+> gives its Supabase driver, with the same `media` table and bucket, so your files stay.
+> Remove this layer from `extends` and from `package.json`, and update `@plutocms/supabase`.
+> See [Storage](https://pluto.vulmix.dev/layers/storage) for the steps.
+
 This layer provides media and file storage functionality for Pluto, built on Supabase Storage.
 
 ## Features
